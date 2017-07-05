@@ -23,4 +23,26 @@ public class MaxTest {
 		int expected = 2;
 		assertThat(result, is(expected));
 	}
+
+	/**
+	* Test max.
+	*/
+	@Test
+	public void whenMaxOneMoreZeroThenOne() {
+		Max maxInstance = new Max();
+		int result = maxInstance.max(0, 1);
+		int expected = 1;
+		assertThat(result, is(expected));
+	}
+
+	/**
+	* Test max.
+	*/
+	@Test
+	public void whenMaxMinusOneMoreMinusTwoThenMinusOne() {
+		Max maxInstance = new Max();
+		int result = maxInstance.max(-1, -2);
+		int expected = -1;
+		assertThat(result, is(expected));
+	}
 }
