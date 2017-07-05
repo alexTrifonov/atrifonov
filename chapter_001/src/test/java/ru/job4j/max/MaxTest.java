@@ -56,4 +56,48 @@ public class MaxTest {
 		int expected = 7;
 		assertThat(result, is(expected));
 	}
+
+	/**
+	* Test max for three arguments.
+	*/
+	@Test
+	public void whenMaxThreeMoreTwoMoreOneThenThree() {
+		Max maxInstanceForThree = new Max();
+		int result = maxInstanceForThree.max(1, 2, 3);
+		int expected = 3;
+		assertThat(result, is(expected));
+	}
+
+	/**
+	* Test max for three arguments.
+	*/
+	@Test
+	public void whenMaxMinusOneLessTwoMoreMinusTenThenTwo() {
+		Max maxInstanceForThree = new Max();
+		int result = maxInstanceForThree.max(-1, 2, -10);
+		int expected = 2;
+		assertThat(result, is(expected));
+	}
+
+	/**
+	* Test max for three arguments.
+	*/
+	@Test
+	public void whenMaxZeroEqualZeroEqualZeroThenZero() {
+		Max maxInstanceForThree = new Max();
+		int result = maxInstanceForThree.max(0, 0, 0);
+		int expected = 0;
+		assertThat(result, is(expected));
+	}
+
+	/**
+	* Test max for three arguments.
+	*/
+	@Test
+	public void whenMaxMinusTenMoreMinusTwentyLessMinusElevenThenMax() {
+		Max maxInstanceForThree = new Max();
+		int result = maxInstanceForThree.max(-10, -20, -11);
+		int expected = -10;
+		assertThat(result, is(expected));
+	}
 }
