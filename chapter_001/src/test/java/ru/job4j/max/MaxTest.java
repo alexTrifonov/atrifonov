@@ -45,4 +45,15 @@ public class MaxTest {
 		int expected = -1;
 		assertThat(result, is(expected));
 	}
+
+	/**
+	* Test max.
+	*/
+	@Test
+	public void whenMaxSevenAndSevenThenSeven() {
+		Max maxInstance = new Max();
+		int result = maxInstance.max(7, 7);
+		int expected = 7;
+		assertThat(result, is(expected));
+	}
 }
