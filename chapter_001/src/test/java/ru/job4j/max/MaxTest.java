@@ -100,4 +100,26 @@ public class MaxTest {
 		int expected = -10;
 		assertThat(result, is(expected));
 	}
+
+	/**
+	* Test max for three arguments.
+	*/
+	@Test
+	public void whenMaxOneMoreZeroLessOneThenMax() {
+		Max maxInstanceForThree = new Max();
+		int result = maxInstanceForThree.max(1, 0, 1);
+		int expected = 1;
+		assertThat(result, is(expected));
+	}
+
+	/**
+	* Test max for three arguments.
+	*/
+	@Test
+	public void whenMaxOneLessTwoMoreOneThenMax() {
+		Max maxInstanceForThree = new Max();
+		int result = maxInstanceForThree.max(1, 2, 1);
+		int expected = 2;
+		assertThat(result, is(expected));
+	}
 }
