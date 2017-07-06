@@ -57,4 +57,37 @@ public class PointTest {
 		boolean expected = true;
 		assertThat(result, is(expected));
 	}
+
+	/**
+	* Test is.
+	*/
+	@Test
+	public void whenIsPointXOneAndYTwoAndAMinusTwoAndBMinusTwoThenFalse() {
+		Point point = new Point(1, 2);
+		boolean result = point.is(-2, -2);
+		boolean expected = false;
+		assertThat(result, is(expected));
+	}
+
+	/**
+	* Test is.
+	*/
+	@Test
+	public void whenIsPointXMinusOneAndYOneAndAOneAndBOneThenFalse() {
+		Point point = new Point(-1, 1);
+		boolean result = point.is(1, 1);
+		boolean expected = false;
+		assertThat(result, is(expected));
+	}
+
+	/**
+	* Test is.
+	*/
+	@Test
+	public void whenIsPointXZeroAndYZeroAndAOneAndBOneThenFalse() {
+		Point point = new Point(0, 0);
+		boolean result = point.is(1, 1);
+		boolean expected = false;
+		assertThat(result, is(expected));
+	}
 }
