@@ -20,12 +20,11 @@ public class Paint {
                 char x = (j < i - 1) || (j > w - i) ? ' ' : '^';
                 sb.append(x);
             }
-            sb.append(separator);
+            if (i != 1) {
+				sb.append(separator);
+			}
         }
         String str = sb.toString();
-        if (str.length() > 0) {
-            str = str.substring(0, str.length() - 2);
-        }
         return str;
 	}
 }
