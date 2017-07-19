@@ -31,7 +31,7 @@ public class Engineer extends Profession {
      * @param device The name of device.
      * @return The string describing the action of engineer. Engineer design of device.
      */
-    public String designDevice(String device) {
+    public String designDevice(Device device) {
         return "Инженер " + this.getName() + " разрабатывает " + device;
     }
 
@@ -40,7 +40,7 @@ public class Engineer extends Profession {
      * @param test The name of test.
      * @return The string describing the action of engineer. Engineer doing of test.
      */
-    public String doTest(String test) {
+    public String doTest(Test test) {
         return "Инженер " + this.getName() + " проводит испытание под названием " + test;
     }
 
@@ -49,7 +49,7 @@ public class Engineer extends Profession {
      * @param documentation The kind of documentation.
      * @return The string describing the action of engineer. Engineer making of documentation.
      */
-    public String makeDocumentation(String documentation) {
+    public String makeDocumentation(Documentation documentation) {
         return "Инженер " + this.getName() + " пишет документацию под названием " + documentation;
     }
 }

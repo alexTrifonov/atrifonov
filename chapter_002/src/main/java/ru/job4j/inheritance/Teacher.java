@@ -35,7 +35,7 @@ public class Teacher extends Profession {
      * @param child A child that teaching.
      * @return The string describing the action of teacher. Teacher learn child.
      */
-    public String learnChildren(String child) {
+    public String learnChildren(Children child) {
         return "Учитель " + this.getName() + " учит " + child;
     }
 
@@ -44,7 +44,7 @@ public class Teacher extends Profession {
      * @param course The name of course
      * @return The string describing the action of teacher. Teacher make course.
      */
-    public String makeCourse(String course) {
+    public String makeCourse(Course course) {
         return "Учитель " + this.getName() + " создает " + course;
     }
 
@@ -55,7 +55,7 @@ public class Teacher extends Profession {
      * @param childThree Third child.
      * @return The string describing the action of teacher. Teacher play with children.
      */
-    public String playWithChildren(String childOne, String childTwo, String childThree) {
+    public String playWithChildren(Children childOne, Children childTwo, Children childThree) {
         return "Учитель " + this.getName() + " играет с детьми: " + childOne + " " + childTwo + " " + childThree;
     }
 
@@ -64,7 +64,7 @@ public class Teacher extends Profession {
      * @param article The name of article.
      * @return The string describing the action of teacher. Teacher make article.
      */
-    public String makeArticle(String article) {
+    public String makeArticle(Article article) {
         return "Учитель " + this.getName() + " создаёт " + article;
     }
 }

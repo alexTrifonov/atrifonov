@@ -28,20 +28,20 @@ public class Doctor extends Profession {
 
     /**
      * Describe treating of man.
-     * @param man The name of man.
+     * @param pacient The name of man.
      * @return The string describing the action of doctor. Doctor treat man.
      */
-    public String treatPeople(String man) {
-        return "Доктор " + this.getName() + " лечит " + man;
+    public String treatPeople(Pacient pacient) {
+        return "Доктор " + this.getName() + " лечит " + pacient;
     }
 
     /**
      * Describe advising of man.
-     * @param man The name of man.
+     * @param pacient The name of man.
      * @return The string describing the action of doctor. Doctor treat man.
      */
-    public String advisePeople(String man) {
-        return "Доктор " + this.getName() + " консультирует " + man;
+    public String advisePeople(Pacient pacient) {
+        return "Доктор " + this.getName() + " консультирует " + pacient;
     }
 
     /**
@@ -49,7 +49,7 @@ public class Doctor extends Profession {
      * @param prescription kind of illness.
      * @return The string describing the action of doctor. Doctor make prescription of illness treating.
      */
-    public String givePrescription(String prescription) {
+    public String givePrescription(Prescription prescription) {
         return "Доктор " + this.getName() + " выписывает " + prescription;
     }
 }
