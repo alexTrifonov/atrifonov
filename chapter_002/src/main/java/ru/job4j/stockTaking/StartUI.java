@@ -56,9 +56,11 @@ public class StartUI {
     }
 
     public static void main(String[] args) {
+        /*
         ConsoleInput consoleInput = new ConsoleInput();
         StartUI startUI = new StartUI(consoleInput);
         startUI.init();
+        */
     }
 
     /**
