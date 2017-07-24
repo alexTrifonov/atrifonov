@@ -83,24 +83,23 @@ public class StartUI {
     /**
      * Main work of application.
      */
-    private void init() {
-        Tracker tracker = new Tracker();
+    public void init() {
         String action = "";
         while (!EXIT.equals(action)) {
             if (ADD_NEW_ITEM.equals(action)) {
-                tracker.add(createItem());
+                this.tracker.add(createItem());
             } else if (SHOW_ALL_ITEMS.equals(action)) {
-                showAllItems(tracker);
+                showAllItems(this.tracker);
             } else if (EDIT_ITEM.equals(action)) {
                 String id = input.ask("Enter Id:");
-                tracker.update(createItem(id, false));
+                this.tracker.update(createItem(id, false));
             } else if (DELETE_ITEM.equals(action)) {
                 String id = input.ask("Enter Id:");
-                tracker.delete(createItem(id, true));
+                this.tracker.delete(createItem(id, true));
             } else if (FIND_ITEM_BY_ID.equals(action)) {
-                findItemById(tracker);
+                findItemById(this.tracker);
             } else if (FIND_ITEMS_BY_NAME.equals(action)) {
-                findItemsByName(tracker);
+                findItemsByName(this.tracker);
             }
 
             action = showMenuAndReturnAction();
