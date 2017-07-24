@@ -1,4 +1,4 @@
-package ru.job4j.stockTaking;
+package ru.job4j.stocktaking;
 
 import java.util.Date;
 
@@ -9,23 +9,75 @@ import java.util.Date;
  * @version 1
  */
 public class StartUI {
-    /*
+
+    /**
+     * Const for menu "Add new item".
+     */
+    private static final String ADD_NEW_ITEM = "0";
+
+    /**
+     * Const for menu "Show all items".
+     */
+    private static final String SHOW_ALL_ITEMS = "1";
+
+    /**
+     * Const for menu "Edit item".
+     */
+    private static final String EDIT_ITEM = "2";
+
+    /**
+     * Const for menu "Delete item".
+     */
+    private static final String DELETE_ITEM = "3";
+
+    /**
+     * Const for menu "Find item by Id".
+     */
+    private static final String FIND_ITEM_BY_ID = "4";
+
+    /**
+     * Const for menu "Find items by name".
+     */
+    private static final String FIND_ITEMS_BY_NAME = "5";
+
+    /**
+     * Const for menu exit.
+     */
+    private static final String EXIT = "6";
+
+    /**
      * Menu of application.
      */
     private String[] menu = {"0. Add new item", "1. Show all items", "2. Edit item", "3. Delete item", "4. Find item by Id",
             "5. Find items by name", "6. Exit Program"};
 
-    /*
+    /**
      * Object for execute user input.
      */
     private Input input;
 
     /**
+     * Object for store items.
+     */
+    private Tracker tracker;
+
+    /**
      * Construct object StartUI with object input.
      * @param input Object for execute input.
      */
-    private StartUI(Input input) {
+    public StartUI(Input input) {
         this.input = input;
+        this.tracker = new Tracker();
+    }
+
+    /**
+     * Construct object StartUI with object input and object tracker.
+     * @param input Object for execute input.
+     * @param tracker Object for store items.
+     */
+    public StartUI(Input input, Tracker tracker) {
+        this.input = input;
+        this.tracker = tracker;
     }
 
     /**
@@ -34,20 +86,20 @@ public class StartUI {
     private void init() {
         Tracker tracker = new Tracker();
         String action = "";
-        while (!action.equals("6")) {
-            if (action.equals("0")) {
+        while (!EXIT.equals(action)) {
+            if (ADD_NEW_ITEM.equals(action)) {
                 tracker.add(createItem());
-            } else if(action.equals("1")) {
+            } else if (SHOW_ALL_ITEMS.equals(action)) {
                 showAllItems(tracker);
-            } else if (action.equals("2")) {
+            } else if (EDIT_ITEM.equals(action)) {
                 String id = input.ask("Enter Id:");
                 tracker.update(createItem(id, false));
-            } else if (action.equals("3")) {
+            } else if (DELETE_ITEM.equals(action)) {
                 String id = input.ask("Enter Id:");
                 tracker.delete(createItem(id, true));
-            } else if (action.equals("4")) {
+            } else if (FIND_ITEM_BY_ID.equals(action)) {
                 findItemById(tracker);
-            } else if (action.equals("5")) {
+            } else if (FIND_ITEMS_BY_NAME.equals(action)) {
                 findItemsByName(tracker);
             }
 
@@ -55,12 +107,14 @@ public class StartUI {
         }
     }
 
+    /**
+     * Entry point.
+     * @param args Args for execute application.
+     */
     public static void main(String[] args) {
-        /*
         ConsoleInput consoleInput = new ConsoleInput();
         StartUI startUI = new StartUI(consoleInput);
         startUI.init();
-        */
     }
 
     /**
@@ -104,18 +158,18 @@ public class StartUI {
 
     /**
      * Create item with name and description.
-     * @param Id id of item
+     * @param id id of item
      * @param isEmptyItem True for create empty item.
      * @return Created item.
      */
-    private Item createItem(String Id, boolean isEmptyItem) {
+    private Item createItem(String id, boolean isEmptyItem) {
         Item item;
         if (isEmptyItem) {
             item = new Item("", "", 0L);
-            item.setId(Id);
+            item.setId(id);
         } else {
             item = createItem();
-            item.setId(Id);
+            item.setId(id);
         }
         return item;
     }
