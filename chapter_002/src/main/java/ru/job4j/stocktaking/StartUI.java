@@ -107,13 +107,36 @@ public class StartUI {
     }
 
     /**
+     * Main work of application with MenuTracker.
+     */
+    public void initM() {
+        Integer key;
+        MenuTracker menu = new MenuTracker(this.input, this.tracker);
+        menu.fillActions();
+        do {
+            menu.show();
+
+            try {
+                key = Integer.valueOf(this.input.ask("Select: "));
+            } catch (NumberFormatException e) {
+                System.out.println("Enter only number");
+                System.out.println("Default action: Show all items");
+                key = 1;
+            }
+
+            menu.select(key);
+        } while (!EXIT.equals(key.toString()));
+    }
+
+    /**
      * Entry point.
      * @param args Args for execute application.
      */
     public static void main(String[] args) {
         ConsoleInput consoleInput = new ConsoleInput();
         StartUI startUI = new StartUI(consoleInput);
-        startUI.init();
+        //startUI.init();
+        startUI.initM();
     }
 
     /**

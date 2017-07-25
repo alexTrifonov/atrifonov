@@ -1,5 +1,7 @@
 package ru.job4j.stocktaking;
 
+import java.util.Date;
+
 /**
  * Class Class describe object Item.
  * @author atrifonov
@@ -124,4 +126,18 @@ public class Item {
         return equals;
     }
     */
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\"Name : \" ");
+        sb.append(this.getName());
+        sb.append(" \"Description : \" ");
+        sb.append(this.getDescription());
+        sb.append(" \"create : \" ");
+        sb.append(new Date(this.getCreate()));
+        sb.append(" \"Id : \" ");
+        sb.append(this.getId());
+        return sb.toString();
+    }
 }

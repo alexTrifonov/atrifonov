@@ -47,6 +47,8 @@ public class Tracker {
     public void update(Item item) {
         for (int i = 0; i < position; i++) {
             if (item != null && item.getId().equals(items[i].getId())) {
+                long timeCreate = items[i].getCreate();
+                item.setCreate(timeCreate);
                 items[i] = item;
                 break;
             }
