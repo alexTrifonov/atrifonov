@@ -38,13 +38,13 @@ public class MenuTracker {
      * Fill set of actions.
      */
     public void fillActions() {
-        this.actions[0] = this.new AddItem();
-        this.actions[1] = this.new ShowAllItems();
-        this.actions[2] = this.new EditItem();
-        this.actions[3] = new MenuTracker.DeleteItem();
-        this.actions[4] = new MenuTracker.FindItemById();
-        this.actions[5] = new FindItemsByName();
-        this.actions[6] = new ExitProgram();
+        this.actions[0] = this.new AddItem("Add the new item", 0);
+        this.actions[1] = this.new ShowAllItems("Show all items", 1);
+        this.actions[2] = this.new EditItem("Edit item", 2);
+        this.actions[3] = new MenuTracker.DeleteItem("Delete item", 3);
+        this.actions[4] = new MenuTracker.FindItemById("Find item by Id", 4);
+        this.actions[5] = new FindItemsByName("Find item by name", 5);
+        this.actions[6] = new ExitProgram("Exit Program", 6);
     }
 
     /**
@@ -87,10 +87,14 @@ public class MenuTracker {
      * @since 24.07.2017
      * @version 1
      */
-    private class AddItem implements UserAction {
+    private class AddItem extends BaseAction {
+
+        public AddItem(String name, int key) {
+            super(name, key);
+        }
         @Override
         public int key() {
-            return 0;
+            return getKey();
         }
 
         @Override
@@ -100,10 +104,6 @@ public class MenuTracker {
             tracker.add(new Item(name, description, System.currentTimeMillis()));
         }
 
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Add the new item.");
-        }
     }
 
     /**
@@ -112,11 +112,15 @@ public class MenuTracker {
      * @since 25.07.2017
      * @version 1
      */
-    private class ShowAllItems implements UserAction {
+    private class ShowAllItems extends BaseAction {
+
+        public ShowAllItems(String name, int key){
+            super(name, key);
+        }
 
         @Override
         public int key() {
-            return 1;
+            return getKey();
         }
 
         @Override
@@ -130,11 +134,6 @@ public class MenuTracker {
                 System.out.println("Array items is empty");
             }
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Show all items");
-        }
     }
 
     /**
@@ -143,10 +142,15 @@ public class MenuTracker {
      * @since 25.07.2017
      * @version 1
      */
-    private class EditItem implements UserAction {
+    private class EditItem extends BaseAction {
+
+        public EditItem(String name, int key) {
+            super(name, key);
+        }
+
         @Override
         public int key() {
-            return 2;
+            return getKey();
         }
 
         @Override
@@ -159,10 +163,7 @@ public class MenuTracker {
             tracker.update(itemFresh);
         }
 
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Edit item");
-        }
+
     }
 
     /**
@@ -171,10 +172,15 @@ public class MenuTracker {
      * @since 25.07.2017
      * @version 1
      */
-    private static class DeleteItem implements UserAction{
+    private static class DeleteItem extends BaseAction{
+
+        public DeleteItem(String name, int key) {
+            super(name, key);
+        }
+
         @Override
         public int key() {
-            return 3;
+            return getKey();
         }
 
         @Override
@@ -184,11 +190,6 @@ public class MenuTracker {
             item.setId(id);
             tracker.delete(item);
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Delete item");
-        }
     }
 
     /**
@@ -197,10 +198,15 @@ public class MenuTracker {
      * @since 25.07.2017
      * @version 1
      */
-    private static class FindItemById implements UserAction {
+    private static class FindItemById extends BaseAction {
+
+        public FindItemById(String name, int key) {
+            super(name, key);
+        }
+
         @Override
         public int key() {
-            return 4;
+            return getKey();
         }
 
         @Override
@@ -213,11 +219,6 @@ public class MenuTracker {
                 System.out.println("Isn't item with id = " + id);
             }
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find item by Id");
-        }
     }
 
 }
@@ -228,10 +229,15 @@ public class MenuTracker {
  * @since 25.07.2017
  * @version 1
  */
-class FindItemsByName implements UserAction {
+class FindItemsByName extends BaseAction {
+
+    public FindItemsByName(String name, int key) {
+        super(name, key);
+    }
+
     @Override
     public int key() {
-        return 5;
+        return getKey();
     }
 
     @Override
@@ -246,11 +252,6 @@ class FindItemsByName implements UserAction {
             System.out.println("Are not item with name = " + name);
         }
     }
-
-    @Override
-    public String info() {
-        return String.format("%s. %s", this.key(), "Find item by name");
-    }
 }
 
 /**
@@ -259,19 +260,19 @@ class FindItemsByName implements UserAction {
  * @since 25.07.2017
  * @version 1
  */
-class ExitProgram implements UserAction {
+class ExitProgram extends BaseAction {
+
+    public ExitProgram(String name, int key) {
+        super(name, key);
+    }
+
     @Override
     public int key() {
-        return 6;
+        return getKey();
     }
 
     @Override
     public void execute(Input input, Tracker tracker) {
         System.out.println("Exit");
-    }
-
-    @Override
-    public String info() {
-        return String.format("%s. %s", this.key(), "Exit Program");
     }
 }
