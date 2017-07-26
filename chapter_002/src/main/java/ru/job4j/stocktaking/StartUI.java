@@ -62,6 +62,11 @@ public class StartUI {
     private Tracker tracker;
 
     /**
+     * Range of action values.
+     */
+    private int[] range;
+
+    /**
      * Construct object StartUI with object input.
      * @param input Object for execute input.
      */
@@ -110,20 +115,13 @@ public class StartUI {
      * Main work of application with MenuTracker.
      */
     public void initM() {
-        Integer key;
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
+        Integer key;
         menu.fillActions();
+        range = menu.getArrayNumbersAction();
         do {
             menu.show();
-
-            try {
-                key = Integer.valueOf(this.input.ask("Select: "));
-            } catch (NumberFormatException e) {
-                System.out.println("Enter only number");
-                System.out.println("Default action: Show all items");
-                key = 1;
-            }
-
+            key = this.input.ask("Select menu item: ", range);
             menu.select(key);
         } while (!EXIT.equals(key.toString()));
     }
@@ -133,8 +131,8 @@ public class StartUI {
      * @param args Args for execute application.
      */
     public static void main(String[] args) {
-        ConsoleInput consoleInput = new ConsoleInput();
-        StartUI startUI = new StartUI(consoleInput);
+        ValidateInput validateInput = new ValidateInput();
+        StartUI startUI = new StartUI(validateInput);
         //startUI.init();
         startUI.initM();
     }

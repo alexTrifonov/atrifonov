@@ -13,4 +13,12 @@ public interface Input {
      * @return user input.
      */
     String ask(String question);
+
+    /**
+     * For execute integer user input
+     * @param question Question for user.
+     * @param range Range of possible integers.
+     * @return user input as int value.
+     */
+    int ask(String question, int[] range);
 }

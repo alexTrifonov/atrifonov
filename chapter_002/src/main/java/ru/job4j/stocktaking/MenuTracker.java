@@ -1,6 +1,6 @@
 package ru.job4j.stocktaking;
 
-import java.util.Date;
+import java.util.Arrays;
 
 /**
  * Class for menu of actions on the items in Tracker.
@@ -47,6 +47,20 @@ public class MenuTracker {
         this.actions[6] = new ExitProgram();
     }
 
+    /**
+     * For get array of action numbers.
+     * @return array numbers. Every number correspond exist action.
+     */
+    public int[] getArrayNumbersAction() {
+        int[] arrayNumbersAction = new int[actions.length];
+        int i = 0;
+        for(UserAction x : actions) {
+            if(x != null) {
+                arrayNumbersAction[i++] = x.key();
+            }
+        }
+        return Arrays.copyOf(arrayNumbersAction, i);
+    }
 
     /**
      * Execute specified action.
