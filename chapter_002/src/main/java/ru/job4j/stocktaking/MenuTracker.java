@@ -225,18 +225,8 @@ class FindItemsByName implements UserAction {
         String name =  input.ask("Enter name :");
         Item[] itemsWithSameName = tracker.findByName(name);
         if (itemsWithSameName.length != 0) {
-            StringBuilder sb = new StringBuilder();
             for (Item x : itemsWithSameName) {
-                sb.append("\"Name : \" ");
-                sb.append(x.getName());
-                sb.append(" \"Description : \" ");
-                sb.append(x.getDescription());
-                sb.append(" \"create : \" ");
-                sb.append(new Date(x.getCreate()));
-                sb.append(" \"Id : \" ");
-                sb.append(x.getId());
-                System.out.println(sb.toString());
-                sb.delete(0, sb.length());
+                System.out.println(x);
             }
         } else {
             System.out.println("Are not item with name = " + name);
