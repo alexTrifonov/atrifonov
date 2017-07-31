@@ -22,33 +22,28 @@ public class ArrayFromTwoArrays {
         int[] resultArray = new int[firstLength + secondLength];
 
         boolean firstFinish = false;
-        int i ;
-        for (i = 0; i < firstLength + secondLength; i++) {
-            if (first[j] <= second[k]) {
+        boolean secondFinish = false;
+        for (int i = 0; i < firstLength + secondLength; i++) {
+            if (firstFinish) {
+                resultArray[i] = second[k];
+                k++;
+            } else if(secondFinish) {
                 resultArray[i] = first[j];
-                if (j != firstLength - 1) {
+                j++;
+            } else if(first[j] <= second[k]) {
+                resultArray[i] = first[j];
+                if(j != firstLength - 1) {
                     j++;
                 } else {
                     firstFinish = true;
-                    break;
                 }
             } else {
                 resultArray[i] = second[k];
                 if(k != secondLength - 1) {
                     k++;
                 } else {
-                    break;
+                    secondFinish = true;
                 }
-            }
-        }
-
-        for(i = i + 1; i < firstLength + secondLength; i ++) {
-            if (firstFinish) {
-                resultArray[i] = second[k];
-                k++;
-            } else {
-                resultArray[i] = first[j];
-                j++;
             }
         }
 
