@@ -100,4 +100,46 @@ public class TestConvertList {
         assertThat(resultArray, is(expectedArray));
     }
 
+    /**
+     * Test convert.
+     */
+    @Test
+    public void whenTwoArrayInListWithTwoAndFourItemThenOneListWithSixItem() {
+        ConvertList convertList = new ConvertList();
+        List<int[]> list = new ArrayList<>(2);
+        int[] a = {1,2};
+        int[] b = {3,4,5,6};
+        list.add(a);
+        list.add(b);
+        List<Integer> resultList = convertList.convert(list);
+        List<Integer> expectedList = new ArrayList<>(6);
+        for(int i = 0; i < 6; i++) {
+            expectedList.add(i + 1);
+        }
+
+        assertThat(resultList, is(expectedList));
+    }
+
+    /**
+     * Test convert.
+     */
+    @Test
+    public void whenThreeArrayInListWithTwoAndZeroAndFourItemThenOneListWithSixItem() {
+        ConvertList convertList = new ConvertList();
+        List<int[]> list = new ArrayList<>(2);
+        int[] a = {1,2};
+        int[] c = new int[0];
+        int[] b = {3,4,5,6};
+        list.add(a);
+        list.add(c);
+        list.add(b);
+        List<Integer> resultList = convertList.convert(list);
+        List<Integer> expectedList = new ArrayList<>(6);
+        for(int i = 0; i < 6; i++) {
+            expectedList.add(i + 1);
+        }
+
+        assertThat(resultList, is(expectedList));
+    }
+
 }
