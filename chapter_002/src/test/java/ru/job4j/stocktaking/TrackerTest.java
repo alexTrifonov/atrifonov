@@ -2,6 +2,9 @@ package ru.job4j.stocktaking;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -23,7 +26,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDescription", 132L);
         tracker.add(item);
-        assertThat(tracker.findAll()[0], is(item));
+        assertThat(tracker.findAll().get(0), is(item));
     }
 
 
@@ -60,7 +63,7 @@ public class TrackerTest {
         tracker.add(item2);
         tracker.add(item3);
         tracker.delete(item);
-        assertThat(tracker.findByName(item.getName()).length, is(0));
+        assertThat(tracker.findByName(item.getName()).size(), is(0));
     }
 
 
@@ -68,9 +71,9 @@ public class TrackerTest {
      * Test findAll.
      */
     @Test
-    public void whenTrackerHasOnlyNullItemsThenFindAllreturnArrayZeroLength() {
+    public void whenTrackerHasOnlyNullItemsThenFindAllreturnListZeroSize() {
         Tracker tracker = new Tracker();
-        assertThat(tracker.findAll().length, is(0));
+        assertThat(tracker.findAll().size(), is(0));
     }
 
 
@@ -78,7 +81,7 @@ public class TrackerTest {
      * Test findByName.
      */
     @Test
-    public void whenTrackerHasSameNameItemsThenFindByNameReturnArrayItemsSameName() {
+    public void whenTrackerHasSameNameItemsThenFindByNameReturnListItemsSameName() {
         Tracker tracker = new Tracker();
         Item item = new Item("test", "testDescription", 132L);
         Item item2 = new Item("test", "testDescription2", 144L);
@@ -86,8 +89,10 @@ public class TrackerTest {
         tracker.add(item);
         tracker.add(item2);
         tracker.add(item3);
-        Item[] items = {item, item2};
-        assertThat(tracker.findByName(item.getName()), is(items));
+        List<Item> expectedItems = new ArrayList<>();
+        expectedItems.add(item);
+        expectedItems.add(item2);
+        assertThat(tracker.findByName(item.getName()), is(expectedItems));
     }
 
 
@@ -113,7 +118,7 @@ public class TrackerTest {
      * Test add.
      */
     @Test
-    public void whenTrackerHasFillArrayThenNotWillAddNewItem() {
+    public void whenTrackerHasFillListThenNotWillAddNewItem() {
         Tracker tracker = new Tracker();
         for (int i = 0; i < 100; i++) {
             String name = "name" + i;

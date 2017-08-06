@@ -1,5 +1,8 @@
 package ru.job4j.stocktaking;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class Interface for user input.
  * @author atrifonov
@@ -20,5 +23,5 @@ public interface Input {
      * @param range Range of possible integers.
      * @return user input as int value.
      */
-    int ask(String question, int[] range);
+    int ask(String question, List<Integer> range);
 }

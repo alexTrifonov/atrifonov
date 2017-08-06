@@ -1,6 +1,8 @@
 package ru.job4j.stocktaking;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -13,12 +15,8 @@ public class Tracker {
     /**
      * Array of Item's.
      */
-    private Item[] items = new Item[100];
+    private List<Item> items = new ArrayList<>(100);
 
-    /**
-     * Position of next Item. This item will be added in array items.
-     */
-    private int position = 0;
 
     /**
      * Object for generate Id of Item.
@@ -32,9 +30,9 @@ public class Tracker {
      */
     public Item add(Item item) {
         Item itemAdded = null;
-        if (position < 100) {
+        if (items.size() < 100) {
             item.setId(generateId());
-            this.items[position++] = item;
+            items.add(item);
             itemAdded = item;
         }
         return itemAdded;
@@ -45,11 +43,11 @@ public class Tracker {
      * @param item new value of item with same Id.
      */
     public void update(Item item) {
-        for (int i = 0; i < position; i++) {
-            if (item != null && item.getId().equals(items[i].getId())) {
-                long timeCreate = items[i].getCreate();
+        for (int i = 0; i < items.size(); i++) {
+            if (item != null && item.getId().equals(items.get(i).getId())) {
+                long timeCreate = items.get(i).getCreate();
                 item.setCreate(timeCreate);
-                items[i] = item;
+                items.set(i, item);
                 break;
             }
         }
@@ -62,18 +60,11 @@ public class Tracker {
     public void delete(Item item) {
         int index = 0;
         boolean hasItem = false;
-        for (int i = 0; i < position; i++) {
-            if (item != null && item.getId().equals(items[i].getId())) {
-                hasItem = true;
-                index = i;
-                items[i] = null;
+        for (Item x : items) {
+            if (item != null && item.getId().equals(x.getId())) {
+                items.remove(x);
                 break;
             }
-        }
-
-        if (hasItem) {
-            System.arraycopy(items, index + 1, items, index, position - index - 1);
-            position--;
         }
     }
 
@@ -81,8 +72,8 @@ public class Tracker {
      * Find all not null elements.
      * @return array without null elements.
      */
-    public Item[] findAll() {
-        return Arrays.copyOf(items, position);
+    public List<Item> findAll() {
+        return new ArrayList<>(items);
     }
 
     /**
@@ -90,15 +81,14 @@ public class Tracker {
      * @param key name of element.
      * @return array of elements with same name.
      */
-    public Item[] findByName(String key) {
-        int countItems = 0;
-        Item[] sameName = new Item[items.length];
+    public List<Item> findByName(String key) {
+        ArrayList<Item> sameName = new ArrayList<>(items.size());
         for (Item item : items) {
             if (item != null && item.getName().equals(key)) {
-                sameName[countItems++] = item;
+                sameName.add(item);
             }
         }
-        return Arrays.copyOf(sameName, countItems);
+        return sameName;
     }
 
     /**

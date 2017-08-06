@@ -1,6 +1,7 @@
 package ru.job4j.stocktaking;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Class Main class of application StockTaking.
@@ -64,7 +65,7 @@ public class StartUI {
     /**
      * Range of action values.
      */
-    private int[] range;
+    private List<Integer> range;
 
     /**
      * Construct object StartUI with object input.
@@ -141,7 +142,7 @@ public class StartUI {
      * Print all items from passed array.
      * @param items Array of items.
      */
-    private void printItems(Item[] items) {
+    private void printItems(List<Item> items) {
         for (Item x : items) {
             System.out.println(itemToString(x));
         }
@@ -199,8 +200,8 @@ public class StartUI {
      * @param tracker Tracker with items.
      */
     private void showAllItems(Tracker tracker) {
-        Item[] itemsAll = tracker.findAll();
-        if (itemsAll.length != 0) {
+        List<Item> itemsAll = tracker.findAll();
+        if (itemsAll.size() != 0) {
             printItems(itemsAll);
         } else {
             System.out.println("Array items is empty");
@@ -240,8 +241,8 @@ public class StartUI {
      */
     private void findItemsByName(Tracker tracker) {
         String name =  input.ask("Enter name :");
-        Item[] itemsWithSameName = tracker.findByName(name);
-        if (itemsWithSameName.length != 0) {
+        List<Item> itemsWithSameName = tracker.findByName(name);
+        if (itemsWithSameName.size() != 0) {
             printItems(tracker.findByName(name));
         } else {
             System.out.println("Are not item with name = " + name);

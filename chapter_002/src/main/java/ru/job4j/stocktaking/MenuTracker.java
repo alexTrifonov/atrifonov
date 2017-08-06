@@ -1,6 +1,8 @@
 package ru.job4j.stocktaking;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Class for menu of actions on the items in Tracker.
@@ -22,7 +24,7 @@ public class MenuTracker {
     /**
      * Set of actions.
      */
-    private UserAction[] actions = new UserAction[7];
+    private List<UserAction> actions = new ArrayList<>(7);
 
     /**
      * Construct object MenuTracker with input and tracker.
@@ -38,28 +40,27 @@ public class MenuTracker {
      * Fill set of actions.
      */
     public void fillActions() {
-        this.actions[0] = this.new AddItem("Add the new item", 0);
-        this.actions[1] = this.new ShowAllItems("Show all items", 1);
-        this.actions[2] = this.new EditItem("Edit item", 2);
-        this.actions[3] = new MenuTracker.DeleteItem("Delete item", 3);
-        this.actions[4] = new MenuTracker.FindItemById("Find item by Id", 4);
-        this.actions[5] = new FindItemsByName("Find item by name", 5);
-        this.actions[6] = new ExitProgram("Exit Program", 6);
+        this.actions.add(this.new AddItem("Add the new item", 0));
+        this.actions.add(this.new ShowAllItems("Show all items", 1));
+        this.actions.add(this.new EditItem("Edit item", 2));
+        this.actions.add(new MenuTracker.DeleteItem("Delete item", 3));
+        this.actions.add(new MenuTracker.FindItemById("Find item by Id", 4));
+        this.actions.add(new FindItemsByName("Find item by name", 5));
+        this.actions.add(new ExitProgram("Exit Program", 6));
     }
 
     /**
      * For get array of action numbers.
      * @return array numbers. Every number correspond exist action.
      */
-    public int[] getArrayNumbersAction() {
-        int[] arrayNumbersAction = new int[actions.length];
-        int i = 0;
-        for(UserAction x : actions) {
+    public List<Integer> getArrayNumbersAction() {
+        List<Integer> arrayNumbersAction = new ArrayList<>(this.actions.size());
+        for(UserAction x : this.actions) {
             if(x != null) {
-                arrayNumbersAction[i++] = x.key();
+                arrayNumbersAction.add(x.key());
             }
         }
-        return Arrays.copyOf(arrayNumbersAction, i);
+        return arrayNumbersAction;
     }
 
     /**
@@ -67,7 +68,7 @@ public class MenuTracker {
      * @param key Number of action.
      */
     public void select(int key) {
-        this.actions[key].execute(this.input, this.tracker);
+        this.actions.get(key).execute(this.input, this.tracker);
     }
 
     /**
@@ -125,8 +126,8 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
-            Item[] itemsAll = tracker.findAll();
-            if (itemsAll.length != 0) {
+            List<Item> itemsAll = tracker.findAll();
+            if (itemsAll.size() != 0) {
                 for (Item x : itemsAll) {
                     System.out.println(x);
                 }
@@ -243,8 +244,8 @@ class FindItemsByName extends BaseAction {
     @Override
     public void execute(Input input, Tracker tracker) {
         String name =  input.ask("Enter name :");
-        Item[] itemsWithSameName = tracker.findByName(name);
-        if (itemsWithSameName.length != 0) {
+        List<Item> itemsWithSameName = tracker.findByName(name);
+        if (itemsWithSameName.size() != 0) {
             for (Item x : itemsWithSameName) {
                 System.out.println(x);
             }
