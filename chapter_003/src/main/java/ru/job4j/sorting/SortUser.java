@@ -26,7 +26,50 @@ public class SortUser {
         return userSet;
     }
 
+    /**
+     * Sort List of users by name length.
+     * @param list list for sorting.
+     * @return sorted list of users.
+     */
+    public List<User> sortNameLength(List<User> list) {
+        List<User> sortUserList = new ArrayList<>(list);
+        Collections.sort(sortUserList, new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                int compareUser;
+                if(o1 != null && o2 != null) {
+                    compareUser = o1.getName().length() - o2.getName().length();
+                } else {
+                    compareUser = (o1 == null && o2 == null) ? 0 : ((o1 != null) ? -1 : 1);
+                }
+                return compareUser;
+            }
+        });
+        return sortUserList;
+    }
 
+    /**
+     * Sort list of users by name length and age.
+     * @param list list for sorting.
+     * @return sorted list of users.
+     */
+    public List<User> sortByAllFields(List<User> list) {
+        List<User> sortUserList = new ArrayList<>(list);
+        Collections.sort(sortUserList, new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                int compareUser;
+                if (o1 != null && o2 != null) {
+                    compareUser = o1.getName().length() != o2.getName().length() ? (o1.getName().length() - o2.getName().length()) : (o1.getAge() - o2.getAge());
+                } else {
+                    compareUser = (o1 == null && o2 == null) ? 0 : ((o1 != null) ? -1 : 1);
+                }
+                return compareUser;
+
+            }
+        });
+        return sortUserList;
+    }
 
 
 }
