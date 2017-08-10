@@ -119,15 +119,15 @@ public class TestSortUser {
 
         List<User> resultList = sortUser.sortByAllFields(list);
         List<User> expectedList = new ArrayList<>(9);
-        list.add(user2);
-        list.add(user3);
-        list.add(user5);
-        list.add(user);
-        list.add(user4);
-        list.add(user1);
-        list.add(null);
-        list.add(null);
-        list.add(null);
+        expectedList.add(user2);
+        expectedList.add(user3);
+        expectedList.add(user5);
+        expectedList.add(user);
+        expectedList.add(user4);
+        expectedList.add(user1);
+        expectedList.add(null);
+        expectedList.add(null);
+        expectedList.add(null);
 
         Iterator<User> userIterator = resultList.iterator();
         boolean resultEqualExpected = true;
