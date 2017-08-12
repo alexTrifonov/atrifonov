@@ -36,9 +36,7 @@ public class SortUser {
         Collections.sort(sortUserList, new Comparator<User>() {
             @Override
             public int compare(User o1, User o2) {
-                final boolean bothUserNotNull = o1 != null && o2 != null;
-                return bothUserNotNull ? o1.getName().length() - o2.getName().length() :
-                        (o1 == null && o2 == null) ? 0 : ((o1 != null) ? -1 : 1);
+                return (o1 != null && o2 != null) ? o1.getName().length() - o2.getName().length() : compareNullUsers(o1, o2);
             }
         });
         return sortUserList;
@@ -55,12 +53,27 @@ public class SortUser {
             @Override
             public int compare(User o1, User o2) {
                 final boolean bothUserNotNull = o1 != null && o2 != null;
-                return !bothUserNotNull ? (o1 == null && o2 == null) ? 0 : ((o1 != null) ? -1 : 1) :
-                        (o1.getName().length() != o2.getName().length() ?
-                                (o1.getName().length() - o2.getName().length()) : (o1.getAge() - o2.getAge()));
+                int resultCompare;
+                if(bothUserNotNull) {
+                    final int diffLength =o1.getName().length() - o2.getName().length();
+                    resultCompare = (diffLength != 0) ? diffLength : o1.getAge() - o2.getAge();
+                } else {
+                    resultCompare = compareNullUsers(o1, o2);
+                }
+                return resultCompare;
             }
         });
         return sortUserList;
+    }
+
+    private int compareNullUsers(User o1, User o2) {
+        int resultCompare;
+        if (o1 == null) {
+            resultCompare = (o2 == null) ? 0 : 1;
+        } else {
+            resultCompare = (o2 == null) ? 0 : -1;
+        }
+        return resultCompare;
     }
 
 
