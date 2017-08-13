@@ -19,21 +19,6 @@ public class SortSubdivision {
         return listCodes.toArray(new String[listCodes.size()]);
     }
 
-    public static void main(String[] args) {
-        SortSubdivision sortSubdivision = new SortSubdivision();
-        String[] strings = {"K1\\SK1", "K1\\SK2", "K1\\SK1\\SSK1", "K1\\SK1\\SSK2", "K2", "K2\\SK1\\SSK1", "K2\\SK1\\SSK2"};
-        String[] resultStrings = sortSubdivision.sortAscendingCodes(strings);
-        //System.out.println(Arrays.toString(resultStrings));
-        for (String x : resultStrings) {
-            System.out.println(x);
-        }
-        System.out.println();
-        String[] resultDecrease = sortSubdivision.sortDecreaseCodes(strings);
-        for (String x : resultDecrease) {
-            System.out.println(x);
-        }
-    }
-
     public String[] sortDecreaseCodes(String[] codesSubdivisions) {
         List<String> listCodes = new LinkedList<>();
         Collections.addAll(listCodes, codesSubdivisions);
