@@ -1,8 +1,8 @@
 package ru.job4j.taskIterator;
 
 import org.junit.Test;
+import ru.job4j.taskIterator.PrimeIt;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;

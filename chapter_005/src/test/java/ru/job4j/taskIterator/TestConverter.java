@@ -1,6 +1,7 @@
 package ru.job4j.taskIterator;
 
 import org.junit.Test;
+import ru.job4j.taskIterator.Converter;
 
 import java.util.*;
 

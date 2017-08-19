@@ -1,6 +1,7 @@
 package ru.job4j.taskIterator;
 
 import org.junit.Test;
+import ru.job4j.taskIterator.TwoDimensionalArrIterator;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
