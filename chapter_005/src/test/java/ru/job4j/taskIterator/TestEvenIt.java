@@ -31,4 +31,18 @@ public class TestEvenIt {
         List<Integer> expectedList = new LinkedList<>(Arrays.asList(new Integer[]{2,4,6,4,6,8}));
         assertThat(list, is(expectedList));
     }
+
+    /**
+     * Test.
+     */
+    @Test
+    public void whenHasNestAfterNextThenTrue() {
+        EvenIt iterator = new EvenIt(new int[]{1,2,3,4});
+
+        iterator.next();
+        iterator.hasNext();
+
+
+        assertThat(iterator.next(), is(4));
+    }
 }

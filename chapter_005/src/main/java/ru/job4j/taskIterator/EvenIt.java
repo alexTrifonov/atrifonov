@@ -1,5 +1,6 @@
 package ru.job4j.taskIterator;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Class for iterator for even number in array.
@@ -27,26 +28,24 @@ public class EvenIt implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        int i = position;
         boolean hasEven = false;
-        while (!hasEven && i < array.length) {
-            hasEven = (array[i++] % 2 == 0);
+        if(position < array.length)   {
+            hasEven = array[position] % 2 == 0;
+        }
+
+        while (!hasEven && position < array.length){
+            position++;
+            hasEven = array[position] % 2 == 0;
         }
         return hasEven;
     }
 
     @Override
     public Integer next() {
-        int item;
-        if(array[position] % 2 == 0) {
-            item = array[position++];
+        if(hasNext()) {
+            return array[position++];
         } else {
-            while (array[position] % 2 != 0){
-                position++;
-            }
-            item = array[position++];
+            throw new NoSuchElementException();
         }
-
-        return item;
     }
 }
