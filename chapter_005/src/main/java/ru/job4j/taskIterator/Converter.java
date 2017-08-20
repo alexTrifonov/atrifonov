@@ -35,20 +35,15 @@ public class Converter {
 
             @Override
             public Integer next() {
-                int item;
-
                 if(iterator == null) {
                     iterator = it.next();
                 }
 
-                try {
-                    item = iterator.next();
-                } catch (NoSuchElementException e) {
-                    iterator = it.next();
-                    item = iterator.next();
+                if(hasNext()) {
+                    return iterator.next();
+                } else {
+                    throw new NoSuchElementException();
                 }
-
-                return item;
             }
         };
     }
