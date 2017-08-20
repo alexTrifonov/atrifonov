@@ -2,6 +2,7 @@ package ru.job4j.taskIterator;
 
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Class for iterator for prime number in array.
@@ -29,27 +30,25 @@ public class PrimeIt implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        int i = position;
         boolean hasEven = false;
-        while (!hasEven && i < array.length) {
-            hasEven = isPrime(array[i++]);
+        if(position < array.length)   {
+            hasEven = isPrime(array[position]);
+        }
+
+        while (!hasEven && position < array.length){
+            position++;
+            hasEven = isPrime(array[position]);
         }
         return hasEven;
     }
 
     @Override
     public Integer next() {
-        int item;
-        if(isPrime(array[position])) {
-            item = array[position++];
+        if(hasNext()) {
+            return array[position++];
         } else {
-            while (!isPrime(array[position])){
-                position++;
-            }
-            item = array[position++];
+            throw new NoSuchElementException();
         }
-
-        return item;
     }
 
     private boolean isPrime(int number) {
