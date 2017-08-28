@@ -4,21 +4,25 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * Class simple collection analogue of list array.
- * @author atrifonov.
- * @since 24.08.2017.
- * @version 1.
- * @param <E> the type of elements in this list.
+ * Class linked list for queue.
+ * @param <E>
  */
-public class SimpleLinkedList<E> implements SimpleList<E> {
-    private ListCell last = new ListCell();
-    private ListCell first = new ListCell(last);
+public class QLinkedList<E> implements SimpleList<E> {
+    private Cell last = new Cell();
+    private Cell first = new Cell();
+
+    public QLinkedList(){
+        first.refNext = last;
+        last.itemRef = first;
+    }
 
     @Override
     public void add(E e) {
-        ListCell newCell = new ListCell(e);
-        last.itemRef.refNext = newCell;
-        last.itemRef = newCell;
+        Cell newCell = new Cell(e);
+        newCell.refNext = first.refNext;
+        first.refNext = newCell;
+        newCell.itemRef = first;
+        newCell.refNext.itemRef = newCell;
     }
 
     @Override
@@ -31,6 +35,7 @@ public class SimpleLinkedList<E> implements SimpleList<E> {
                     e = iterator.next();
                 } else {
                     e = null;
+                    break;
                 }
             }
         }
@@ -41,25 +46,28 @@ public class SimpleLinkedList<E> implements SimpleList<E> {
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
-            ListCell prevCell;
-            ListCell itListCell = first.refNext;
+            Cell afterCell;
+            Cell itListCell = last.itemRef;
             private boolean invokeNext = false;
             @Override
             public boolean hasNext() {
-                return first.refNext != null && itListCell != null;
+
+                //return itListCell.refNext != first;
+                return itListCell != first;
             }
 
             @Override
             public E next() {
                 if (hasNext()) {
-                    if(prevCell == null) {
-                        prevCell = first;
+                    if(afterCell == null) {
+                        afterCell = last;
                     } else {
-                        prevCell = invokeNext ?  prevCell.refNext : prevCell;
+                        afterCell = invokeNext ? afterCell.itemRef : afterCell;
+                        //afterCell = afterCell.itemRef;
                     }
 
                     E e = itListCell.data;
-                    itListCell = itListCell.refNext;
+                    itListCell = itListCell.itemRef;
 
                     invokeNext = true;
 
@@ -73,7 +81,8 @@ public class SimpleLinkedList<E> implements SimpleList<E> {
             @Override
             public void remove() {
                 if(invokeNext) {
-                    prevCell.refNext = itListCell;
+                    afterCell.itemRef = itListCell;
+                    itListCell.refNext = afterCell;
                     invokeNext = false;
                 } else {
                     throw new IllegalStateException();
@@ -82,7 +91,7 @@ public class SimpleLinkedList<E> implements SimpleList<E> {
         };
     }
 
-    private class ListCell{
+    private class Cell {
         /**
          * Data in this cell (object for store in SimpleLinkedList)
          */
@@ -90,33 +99,25 @@ public class SimpleLinkedList<E> implements SimpleList<E> {
         /**
          * Reference on next Item.
          */
-        private ListCell refNext;
+        private Cell refNext;
         /**
          * Item that has reference on this element.
          */
-        private ListCell itemRef;
+        private Cell itemRef;
 
         /**
          * Construct empty cell.
          */
-        private ListCell(){
-        }
-
-        /**
-         * Construct cell with reference on next Item.
-         * @param refNext item for reference.
-         */
-        private ListCell(ListCell refNext) {
-            ListCell.this.refNext = refNext;
-            refNext.itemRef = ListCell.this;
+        private Cell(){
         }
 
         /**
          * Construct cell with object added in SimpleLinkedList.
          * @param data object for adding.
          */
-        private ListCell(E data) {
-            ListCell.this.data = data;
+        private Cell(E data) {
+            Cell.this.data = data;
         }
     }
+
 }

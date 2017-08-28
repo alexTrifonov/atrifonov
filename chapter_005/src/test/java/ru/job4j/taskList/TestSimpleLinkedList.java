@@ -50,7 +50,13 @@ public class TestSimpleLinkedList {
     public void whenAddOneAndRemoveOneThenNoHasItem() {
         SimpleLinkedList<String> list = new SimpleLinkedList<>();
         list.add("a");
+        list.add("b");
+        list.add("c");
         Iterator<String> iterator = list.iterator();
+        iterator.next();
+        iterator.remove();
+        iterator.next();
+        iterator.remove();
         iterator.next();
         iterator.remove();
 
