@@ -13,17 +13,6 @@ public class User extends Base {
         this.name = name;
     }
 
-    private String id;
-    @Override
-    public String getId() {
-        return this.id;
-    }
-
-    @Override
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }

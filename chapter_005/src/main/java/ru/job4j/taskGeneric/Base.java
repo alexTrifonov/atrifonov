@@ -7,7 +7,13 @@ package ru.job4j.taskGeneric;
  * @version 1.
  */
 public abstract class Base {
-    public abstract String getId();
+    private String id;
 
-    public abstract void setId(String id);
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
