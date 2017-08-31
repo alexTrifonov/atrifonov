@@ -1,4 +1,4 @@
-package ru.job4j.taskGeneric;
+package ru.job4j.taskList;
 
 import org.junit.Test;
 import ru.job4j.taskList.EmptySimpleQueueException;
