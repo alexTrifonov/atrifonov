@@ -39,7 +39,7 @@ public class TestSimpleSet {
      */
     @Test
     public void whenRemoveSecondAndAddAnotherItemThenGetTwoItem() {
-        SimpleSet<String> set = new SimpleSet<>(4);
+        SimpleSet<String> set = new SimpleSet<>();
         set.add("one");
         set.add("two");
         set.add("three");
