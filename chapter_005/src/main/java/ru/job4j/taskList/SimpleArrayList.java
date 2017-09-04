@@ -37,6 +37,9 @@ public class SimpleArrayList<E> implements SimpleList<E> {
             container = Arrays.copyOf(container, container.length + container.length / 2);
             container[lastIndex++] = e;
         }
+        Object[] temp = Arrays.copyOf(container, lastIndex);
+        Arrays.sort(temp);
+        container = Arrays.copyOf(temp, container.length);
     }
 
     @Override
@@ -47,6 +50,14 @@ public class SimpleArrayList<E> implements SimpleList<E> {
             e = (E) container[index];
         }
         return e;
+    }
+
+    public Object[] getContainer() {
+        return container;
+    }
+
+    public int getLastIndex() {
+        return lastIndex;
     }
 
     @Override
@@ -86,6 +97,8 @@ public class SimpleArrayList<E> implements SimpleList<E> {
                 }
             }
         };
+
+
     }
 
 
