@@ -21,7 +21,7 @@ public class Handler {
     }
 
     private void fillMapBuyAndSell(){
-        File file = new File("E:\\Java\\PetrArsentev\\chapter_005\\orders.xml");
+        File file = new File("orders.xml");
         try {
             FileInputStream in = new FileInputStream(file);
             XMLInputFactory factory = XMLInputFactory.newInstance();
@@ -30,16 +30,16 @@ public class Handler {
             while (parser.hasNext()) {
                 int event = parser.next();
                 if(event == XMLStreamConstants.START_ELEMENT && parser.getLocalName().equals("AddOrder")) {
-                    String book = parser.getAttributeValue(0);
-                    String operation = parser.getAttributeValue(1);
-                    Double price = Double.parseDouble(parser.getAttributeValue(2));
-                    Integer volume = Integer.parseInt(parser.getAttributeValue(3));
-                    Integer id = Integer.parseInt(parser.getAttributeValue(4));
+                    String book = parser.getAttributeValue(null, "book");
+                    String operation = parser.getAttributeValue(null, "operation");
+                    Double price = Double.parseDouble(parser.getAttributeValue(null, "price"));
+                    Integer volume = Integer.parseInt(parser.getAttributeValue(null, "volume"));
+                    Integer id = Integer.parseInt(parser.getAttributeValue(null, "orderId"));
                     Order order = new Order(book, operation, price, volume);
                     addOrder(order, id);
                 } else if(event == XMLStreamConstants.START_ELEMENT && parser.getLocalName().equals("DeleteOrder")) {
-                    String bookName = parser.getAttributeValue(0);
-                    Integer id = Integer.parseInt(parser.getAttributeValue(1));
+                    String bookName = parser.getAttributeValue(null, "book");
+                    Integer id = Integer.parseInt(parser.getAttributeValue(null, "orderId"));
                     removeOrder(bookName, id);
                 }
             }
