@@ -20,10 +20,12 @@ public class ComputeSpaces implements Runnable {
 
     protected void compute() {
         int countSpaces = 0;
-        Pattern pattern = Pattern.compile("\\s");
-        Matcher matcher = pattern.matcher(sb);
-        while (matcher.find()){
-            System.out.printf("countSpaces = %d%n", ++countSpaces);
+        char[] chars = this.sb.toString().toCharArray();
+        for (char x: chars) {
+            if( x == 32) {
+                countSpaces++;
+            }
+            System.out.printf("countSpaces = %d%n", countSpaces);
         }
     }
 }

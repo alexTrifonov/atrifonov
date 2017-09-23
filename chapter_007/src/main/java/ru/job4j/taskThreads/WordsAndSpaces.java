@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,15 +32,12 @@ public class WordsAndSpaces {
 
     private void initial() {
         try {
-            File file = new File("E:\\Java\\PetrArsentev\\chapter_007\\1.Threads\\WordsAndSpaces.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
-            String st;
             this.sb = new StringBuilder();
-            while ((st = reader.readLine()) != null){
-                if(!st.isEmpty()) {
-                    this.sb.append(st).append(" ");
-                }
+            Scanner in = new Scanner(Paths.get("WordsAndSpaces.txt"), "UTF-8");
+            while (in.hasNext()){
+                this.sb.append(in.next()).append(" ");
             }
+            System.out.println("sb = " + this.sb);
         } catch (Exception e) {
             e.printStackTrace();
         }

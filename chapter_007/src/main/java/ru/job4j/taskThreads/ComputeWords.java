@@ -18,11 +18,20 @@ public class ComputeWords implements Runnable {
 
     protected void compute(){
         int countWords= 0;
-        Pattern pattern = Pattern.compile("[^\\s]+");
-        Matcher matcher = pattern.matcher(sb);
-        while (matcher.find()){
+        char[] chars = this.sb.toString().toCharArray();
+        boolean prevWrd = true;
+        for(int i = 0; i < chars.length; i++) {
+            if(chars[i] == 32) {
+                countWords = (prevWrd) ? ++countWords : countWords;
+                prevWrd = false;
+            } else {
+                prevWrd = true;
+            }
 
-            System.out.printf("countWords = %d%n", ++countWords);
+            if(i == chars.length - 1 && prevWrd) {
+                countWords++;
+            }
+            System.out.printf("countWords = %d%n", countWords);
         }
     }
 }
