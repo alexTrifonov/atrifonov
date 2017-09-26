@@ -24,10 +24,15 @@ public class WrdAndSpInf {
     }
 
     private Runnable rCompSp = () -> {
+        long timeStart = System.currentTimeMillis();
         System.out.printf("Start of program for calculation spaces %n%n");
         int countSp = 0;
         char[] chars = this.str.toCharArray();
         for (char x: chars) {
+
+            if(System.currentTimeMillis() - timeStart > 1000) {
+                Thread.currentThread().interrupt();
+            }
 
             if(Thread.currentThread().isInterrupted()) {
                 System.out.printf("Thread for calculation spaces is interrupted, count_Sp_Intr = %d%n%n", countSp);
@@ -41,11 +46,16 @@ public class WrdAndSpInf {
     };
 
     private Runnable rCompWrd = () -> {
+        long timeStart = System.currentTimeMillis();
         System.out.printf("Start of program for calculation words %n%n");
         int countWrd = 0;
         char[] chars = this.str.toCharArray();
         boolean prevWrd = true;
         for(int i = 0; i < chars.length; i++) {
+
+            if(System.currentTimeMillis() - timeStart > 1000) {
+                Thread.currentThread().interrupt();
+            }
 
             if(Thread.currentThread().isInterrupted()) {
                 System.out.printf("Thread for calculation words is interrupted, count_Wrd_Intr = %d%n%n", countWrd);
@@ -76,4 +86,5 @@ public class WrdAndSpInf {
         return rCompWrd;
     }
 }
+
 

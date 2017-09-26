@@ -14,9 +14,8 @@ public class TestWrdAndSpInf {
         trWrd.start();
 
         try {
-            Thread.sleep(1000);
-            trSp.interrupt();
-            trWrd.interrupt();
+            trSp.join();
+            trWrd.join();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
