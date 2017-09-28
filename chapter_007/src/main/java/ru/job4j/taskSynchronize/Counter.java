@@ -17,6 +17,8 @@ public class Counter {
     }
 
     public int getCount() {
-        return count;
+        synchronized (this) {
+            return count;
+        }
     }
 }
