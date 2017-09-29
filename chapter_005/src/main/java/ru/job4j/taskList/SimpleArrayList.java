@@ -37,9 +37,9 @@ public class SimpleArrayList<E> implements SimpleList<E> {
             container = Arrays.copyOf(container, container.length + container.length / 2);
             container[lastIndex++] = e;
         }
-        Object[] temp = Arrays.copyOf(container, lastIndex);
-        Arrays.sort(temp);
-        container = Arrays.copyOf(temp, container.length);
+        //Object[] temp = Arrays.copyOf(container, lastIndex);
+        //Arrays.sort(temp);
+        //container = Arrays.copyOf(temp, container.length);
     }
 
     @Override
