@@ -41,30 +41,28 @@ public class SynchronizedSmpArrList<E> extends SimpleArrayList<E>{
 
     @Override
     public Iterator<E> iterator() {
-        synchronized (this) {
-            Iterator<E> it =  super.iterator();
-            return new Iterator<E>() {
-                @Override
-                public boolean hasNext() {
-                    synchronized (this) {
-                        return it.hasNext();
-                    }
+        Iterator<E> it =  super.iterator();
+        return new Iterator<E>() {
+            @Override
+            public boolean hasNext() {
+                synchronized (this) {
+                    return it.hasNext();
                 }
+            }
 
-                @Override
-                public E next() {
-                    synchronized (this) {
-                        return it.next();
-                    }
+            @Override
+            public E next() {
+                synchronized (this) {
+                    return it.next();
                 }
+            }
 
-                @Override
-                public void remove() {
-                    synchronized (this) {
-                        it.remove();
-                    }
+            @Override
+            public void remove() {
+                synchronized (this) {
+                    it.remove();
                 }
-            };
-        }
+            }
+        };
     }
 }

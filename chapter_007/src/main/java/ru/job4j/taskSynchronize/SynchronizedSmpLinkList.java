@@ -23,8 +23,28 @@ public class SynchronizedSmpLinkList<E> extends SimpleLinkedList<E>{
 
     @Override
     public Iterator<E> iterator() {
-        synchronized (this) {
-            return super.iterator();
-        }
+        Iterator<E> it =  super.iterator();
+        return new Iterator<E>() {
+            @Override
+            public boolean hasNext() {
+                synchronized (this) {
+                    return it.hasNext();
+                }
+            }
+
+            @Override
+            public E next() {
+                synchronized (this) {
+                    return it.next();
+                }
+            }
+
+            @Override
+            public void remove() {
+                synchronized (this) {
+                    it.remove();
+                }
+            }
+        };
     }
 }
