@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Class for parallel search text in all files.
@@ -21,20 +22,20 @@ public class ParallelSearch {
     /**
      * The root directory for search files.
      */
-    private String root;
+    private final String root;
     /**
      * File contain or not contain this text.
      */
-    private String text;
+    private final String text;
     /**
      * The list of extensions of files. Files with this extensions can contains text.
      */
-    List<String> exts;
+    private final List<String> exts;
     /**
      * List for store of file names with assigned text.
      */
-    private final List<String> listFiles = new LinkedList<>();
-
+    //private final List<String> listFiles = new LinkedList<>();
+    private final ConcurrentLinkedQueue<String> listFiles = new ConcurrentLinkedQueue<>();
     private static volatile int countThread = 0;
     /**
      * Construct ParallelSearch object with root, text and exts.
@@ -57,7 +58,7 @@ public class ParallelSearch {
                 allThrFinish = true;
             }
         }
-        return this.listFiles;
+        return new LinkedList<>(this.listFiles);
     }
 
 
@@ -128,12 +129,9 @@ public class ParallelSearch {
     private void activateThread(File file) {
         Runnable r = () -> {
             countThread++;
-            boolean eq = false;
 
             if(hasText(file)) {
-                synchronized (this.listFiles) {
-                    listFiles.add(file.getAbsolutePath());
-                }
+                listFiles.add(file.getAbsolutePath());
             }
             countThread--;
         };
