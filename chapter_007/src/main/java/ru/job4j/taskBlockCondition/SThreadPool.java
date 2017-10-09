@@ -7,7 +7,10 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * Created by Alexandr on 09.10.2017.
+ * Class for thread pool.
+ * @author atrifonov.
+ * @since 09.10.2017.
+ * @version 1.
  */
 public class SThreadPool {
     BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
@@ -24,8 +27,7 @@ public class SThreadPool {
     public void add(Runnable r) {
         boolean free = false;
         for(MyThread t : threads) {
-            if(!t.getState().equals(Thread.State.BLOCKED) && !t.getState().equals(Thread.State.WAITING)
-                    && !t.getState().equals(Thread.State.TIMED_WAITING)) {
+            if(t.isThreadFree()) {
                 free = true;
                 nRun = r;
                 break;
@@ -41,10 +43,12 @@ public class SThreadPool {
     }
 
     private class MyThread extends Thread {
+        private boolean threadFree = true;
         @Override
         public void run() {
             Runnable r;
-            while (true) {
+            while (this.isInterrupted()) {
+                threadFree = false;
                 if (nRun != null) {
                     r = nRun;
                     r.run();
@@ -60,8 +64,12 @@ public class SThreadPool {
                         e.printStackTrace();
                     }
                 }
-
+                threadFree = true;
             }
+        }
+
+        public boolean isThreadFree() {
+            return threadFree;
         }
     }
 
