@@ -13,9 +13,18 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @version 1.
  */
 public class SThreadPool {
-    BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
-    MyThread[] threads;
-    Runnable nRun;
+    /**
+     * Thread safe queue for adding and getting objects Runnable.
+     */
+    private final BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
+    /**
+     * Array threads for execute tasks from queue.
+     */
+    private final MyThread[] threads;
+
+    /**
+     * Constructs object SThreadPool. In this object count of threads in array equal count of CPU on computer.
+     */
     public SThreadPool() {
         threads = new MyThread[Runtime.getRuntime().availableProcessors()];
         for(MyThread t : threads) {
@@ -24,16 +33,12 @@ public class SThreadPool {
         }
     }
 
+    /**
+     * Add not null object Runnable to queue.
+     * @param r object for execute.
+     */
     public void add(Runnable r) {
-        boolean free = false;
-        for(MyThread t : threads) {
-            if(t.isThreadFree()) {
-                free = true;
-                nRun = r;
-                break;
-            }
-        }
-        if (!free) {
+        if (r != null) {
             try {
                 queue.put(r);
             } catch (InterruptedException e) {
@@ -42,34 +47,23 @@ public class SThreadPool {
         }
     }
 
+    /**
+     * Nested class is descendent of class Thread. Class for array threads.
+     */
     private class MyThread extends Thread {
-        private boolean threadFree = true;
         @Override
         public void run() {
             Runnable r;
-            while (this.isInterrupted()) {
-                threadFree = false;
-                if (nRun != null) {
-                    r = nRun;
+            while (!this.isInterrupted()) {
+                try {
+                    r = queue.take();
                     r.run();
-                    nRun = null;
-                } else {
-                    try {
-                        r = queue.take();
-                        r.run();
-
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                    } catch (RuntimeException e) {
-                        e.printStackTrace();
-                    }
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                } catch (RuntimeException e) {
+                    e.printStackTrace();
                 }
-                threadFree = true;
             }
-        }
-
-        public boolean isThreadFree() {
-            return threadFree;
         }
     }
 
