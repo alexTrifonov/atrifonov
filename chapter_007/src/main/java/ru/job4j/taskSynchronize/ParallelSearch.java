@@ -13,44 +13,44 @@ import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * Class for parallel search text in all files.
+ * Class for parallel search TEXT in all files.
  * @author atrifonov.
  * @since 02.10.2017.
  * @version 1.
  */
 public class ParallelSearch {
     /**
-     * The root directory for search files.
+     * The ROOT directory for search files.
      */
-    private final String root;
+    private final String ROOT;
     /**
-     * File contain or not contain this text.
+     * File contain or not contain this TEXT.
      */
-    private final String text;
+    private final String TEXT;
     /**
-     * The list of extensions of files. Files with this extensions can contains text.
+     * The list of extensions of files. Files with this extensions can contains TEXT.
      */
-    private final List<String> exts;
+    private final List<String> EXTS;
     /**
-     * List for store of file names with assigned text.
+     * List for store of file names with assigned TEXT.
      */
-    //private final List<String> listFiles = new LinkedList<>();
-    private final ConcurrentLinkedQueue<String> listFiles = new ConcurrentLinkedQueue<>();
+    //private final List<String> LIST_FILES = new LinkedList<>();
+    private final ConcurrentLinkedQueue<String> LIST_FILES = new ConcurrentLinkedQueue<>();
     private static volatile int countThread = 0;
     /**
-     * Construct ParallelSearch object with root, text and exts.
-     * @param root root directory.
-     * @param text text for find.
+     * Construct ParallelSearch object with ROOT, TEXT and EXTS.
+     * @param root ROOT directory.
+     * @param text TEXT for find.
      * @param exts extensions of files.
      */
     public ParallelSearch(String root, String text, List<String> exts) {
-        this.root = root;
-        this.text = text;
-        this.exts = exts;
+        this.ROOT = root;
+        this.TEXT = text;
+        this.EXTS = exts;
     }
 
     public List<String> result() {
-        addListFiles(root);
+        addListFiles(ROOT);
 
         boolean allThrFinish = false;
         while (!allThrFinish) {
@@ -58,7 +58,7 @@ public class ParallelSearch {
                 allThrFinish = true;
             }
         }
-        return new LinkedList<>(this.listFiles);
+        return new LinkedList<>(this.LIST_FILES);
     }
 
 
@@ -66,7 +66,7 @@ public class ParallelSearch {
         File fileRoot = new File(root);
         if(!fileRoot.isDirectory()) {
             boolean eq = false;
-            for(String x : this.exts) {
+            for(String x : this.EXTS) {
                 if(fileRoot.getName().endsWith(x)) {
                     eq = true;
                     break;
@@ -107,12 +107,12 @@ public class ParallelSearch {
                 check = false;
             }
             if(line != null) {
-                has = line.contains(this.text);
+                has = line.contains(this.TEXT);
             }
 
             if(check && !has) {
                 while ((line = reader.readLine()) != null) {
-                    if(line.contains(this.text)) {
+                    if(line.contains(this.TEXT)) {
                         has = true;
                         break;
                     }
@@ -131,7 +131,7 @@ public class ParallelSearch {
             countThread++;
 
             if(hasText(file)) {
-                listFiles.add(file.getAbsolutePath());
+                LIST_FILES.add(file.getAbsolutePath());
             }
             countThread--;
         };
