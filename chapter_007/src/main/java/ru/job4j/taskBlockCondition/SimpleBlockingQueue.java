@@ -4,9 +4,9 @@ package ru.job4j.taskBlockCondition;
 import java.util.LinkedList;
 
 /**
- * Class for pattern ProducerConsumer
+ * Class for simple blocking queue.
  */
-public class ProducerConsumer<E> {
+public class SimpleBlockingQueue<E> {
     private LinkedList<E> blockQueue = new LinkedList<>();
 
     public void add(E e) {
@@ -16,14 +16,10 @@ public class ProducerConsumer<E> {
         }
     }
 
-    public E poll() {
+    public E poll() throws InterruptedException {
         synchronized (this.blockQueue) {
             while (this.blockQueue.isEmpty()) {
-                try {
-                    this.blockQueue.wait();
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
+                this.blockQueue.wait();
             }
             return blockQueue.pollFirst();
         }
