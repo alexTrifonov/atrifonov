@@ -95,7 +95,7 @@ public class BomberMan extends Thread {
     private boolean successLock(int x , int y){
         boolean success = false;
         try {
-           success = board[x][y].tryLock(500, TimeUnit.MILLISECONDS);
+            success = board[x][y].tryLock(500, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
