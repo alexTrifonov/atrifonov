@@ -1,70 +1,72 @@
-create table TenderStates (
+create table tenderstates (
 	id serial primary key,
-	name_TS;
-)
-
-
-create table TenderCategories (
-	id serial primary key,
-	name_TC character(2000)
+	name_tendstate character(2000)
 );
 
-create table Capabilities (
+
+create table tendercategories (
 	id serial primary key,
-	name_C character(100)
+	name_tendcat character(2000)
 );
 
-create table Roles (
+create table capabilities (
 	id serial primary key,
-	name_R character(100)
+	name_cpb character(100)
 );
 
-create table RoleCapabilities (
-	idRol integer references Roles(id),
-	idCb integer references Capabilities(id)
-);
-
-create table Users (
+create table roles (
 	id serial primary key,
-	name_U character(100),
-	idRol integer references Roles(id)
+	name_role character(100)
 );
 
-create table CommentTables (
+create table rolecapabilities (
 	id serial primary key,
-	idUs integer references Users(id),
-	text_Cm character(2000)
-)
+	id_role integer references roles(id),
+	id_cpb integer references capabilities(id)
+);
 
-
-create table Tenders (
+create table users (
 	id serial primary key,
-	name_T character(2000),
-	idCt integer references TenderCategories(id),
-	idSt integer references TenderStates(id),
-	idCm integer references CommentTables(id)
+	name_u character(100),
+	id_role integer references roles(id)
 );
 
-create table TendFiles (
+create table commenttables (
 	id serial primary key,
-	nameFile character(2000)
+	id_u integer references users(id),
+	text_cm character(2000)
 );
 
-create table TenderFile (
-	idF integer references TendFiles(id),
-	idTnd integer references Tenders (id)
+
+create table tenders (
+	id serial primary key,
+	name_tend character(2000),
+	id_tendcat integer references tendercategories(id),
+	id_tendstate integer references tenderstates(id),
+	id_cm integer references commenttables(id)
 );
 
-insert into TenderStates(name_TS) values ('new');
+create table tendfiles (
+	id serial primary key,
+	name_file character(2000)
+);
 
-insert into TenderCategories(name_TC) values ('software');
+create table tenderfile (
+	id serial primary key,
+	id_file integer references tendfiles(id),
+	id_tend integer references tenders (id)
+);
 
-insert into Capabilities(name_C) values ('create');
+insert into tenderstates(name_tendstate) values ('new');
 
-insert into Roles(name_R) values ('admin');
+insert into tendercategories(name_tendcat) values ('software');
 
-insert into Users(name_U) values ('Ted');
+insert into capabilities(name_cpb) values ('create');
 
-insert into Tenders(name_T) values ('create software');
+insert into roles(name_role) values ('admin');
 
-insert into TendFiles (nameFile) values ('task');
+insert into users(name_u) values ('Ted');
+
+insert into tenders(name_tend) values ('create software');
+
+insert into tendfiles (name_file) values ('task');
