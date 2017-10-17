@@ -1,0 +1,51 @@
+create table TenderCategories (
+	id serial primary key,
+	name_TC character(2000)
+);
+
+create table Capabilities (
+	id serial primary key,
+	name_C character(100)
+);
+
+create table Roles (
+	id serial primary key,
+	name_R character(100)
+);
+
+create table RoleCapabilities (
+	idRol integer references Roles(id),
+	idCb integer references Capabilities(id)
+);
+
+create table Users (
+	id serial primary key,
+	name_U character(100),
+	idRol integer references Roles(id)
+);
+
+create table Tenders (
+	id serial primary key,
+	name_T character(2000),
+	idCt integer references TenderCategories,
+	idSt integer references TendersStates(id),
+	idCm integer references CommentTables(id)
+);
+
+create table TendFiles (
+	id serial primary key,
+	nameFile character(2000)
+);
+
+create table TenderFile (
+	idF integer references TendFiles(id),
+	idTnd integer references Tenders (id)
+);
+
+insert into TenderStates(name_TS) values ('new');
+insert into TenderCategories(name_TC) values ('software');
+insert into Capabilities(name_C) values ('create');
+insert into Roles(name_R) values ('admin');
+insert into Users(name_U) values ('Ted');
+insert into Tenders(name_T) values ('create software');
+insert into TendFiles (nameFile) values ('task');
