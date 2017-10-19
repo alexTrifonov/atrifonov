@@ -1,0 +1,22 @@
+SELECT * FROM tenders AS t WHERE t.name_tend LIKE '%ware%';
+
+SELECT * FROM tenders AS t WHERE t.name_tend LIKE '%ware%' AND t.id_tendcat = 2;
+
+SELECT * FROM tenders AS t WHERE t.id_tendstate = 2 ORDER BY t.name_tend;
+
+SELECT name_tend FROM tenders ORDER BY name_tend;
+
+SELECT * FROM tenders AS t WHERE t.name_tend LIKE '%print%' OR t.name_tend LIKE '%ware%';
+
+SELECT * FROM tenders AS t WHERE (t.name_tend LIKE '%print%' OR t.name_tend LIKE '%ware%')
+	AND t.id_cm = 2;
+
+SELECT * FROM tenders AS t WHERE (t.name_tend LIKE '%print%' OR t.name_tend LIKE '%ware%')
+	AND t.id_cm = 2
+	AND t.id_tendstate = 1;
+
+SELECT * FROM tenders AS t WHERE (t.name_tend LIKE '%print%' OR t.name_tend LIKE '%ware%')
+	AND (t.id_tendcat = 2 OR t.id_tendcat = 3);
+
+SELECT * FROM tenders AS t WHERE (t.name_tend LIKE '%print%' OR t.name_tend LIKE '%ware%')
+	AND t.id_tendstate >= 1;
