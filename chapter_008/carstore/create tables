@@ -1,0 +1,43 @@
+CREATE TABLE driveline(
+  id serial PRIMARY KEY,
+  name_driveline_detail VARCHAR
+);
+
+INSERT INTO driveline(name_driveline_detail) VALUES ('cardan shaft'),
+('clutch'),
+('differential'),
+('drive shaft');
+
+
+CREATE TABLE engine(
+  id serial PRIMARY KEY,
+  name_engine_detail VARCHAR
+);
+
+INSERT INTO engine(name_engine_detail) VALUES ('cylinder'),
+('crankshaft'),
+('turbine'),
+('valve');
+
+CREATE TABLE transmission(
+  id serial PRIMARY KEY,
+  name_transm_detail VARCHAR
+);
+
+INSERT INTO transmission(name_transm_detail) VALUES ('gear'),
+('speedometer drive gear'),
+('main drive gear'),
+('gear lever');
+
+
+CREATE TABLE carstable(
+  id serial PRIMARY KEY,
+  name_car VARCHAR,
+  id_driveline INTEGER REFERENCES driveline(id),
+  id_engine INTEGER REFERENCES engine(id),
+  id_transm INTEGER REFERENCES engine(id)
+);
+
+INSERT INTO carstable(name_car, id_driveline, id_engine, id_transm) VALUES ('care_one', 1, 2, 2),
+('care_two', 2, 1, 1),
+('care_three', 3, 4, 4);

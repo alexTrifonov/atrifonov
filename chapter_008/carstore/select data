@@ -1,0 +1,11 @@
+SELECT c.name_car FROM carstable AS c;
+
+SELECT d.name_driveline_detail FROM driveline AS d LEFT OUTER JOIN carstable AS c on c.id_driveline = d.id
+  WHERE c.id_driveline IS NULL;
+
+SELECT e.name_engine_detail FROM carstable AS c RIGHT OUTER JOIN engine AS e on c.id_engine = e.id
+  WHERE c.id_engine IS NULL;
+
+SELECT t.name_transm_detail FROM carstable AS c RIGHT OUTER JOIN transmission AS t on c.id_transm = t.id
+  WHERE c.id_transm IS NULL;
+
