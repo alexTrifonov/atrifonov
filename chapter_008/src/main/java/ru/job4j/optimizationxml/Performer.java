@@ -1,34 +1,23 @@
 package ru.job4j.optimizationxml;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Text;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
-//import javax.xml.transform.*;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.transform.OutputKeys;
-//import java.io.*;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+//import java.sql.*;
+import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Class for create and perform xml document from data of database.
@@ -55,7 +44,7 @@ public class Performer {
      * @param url new value of url
      */
     public void setUrl(String url) {
-        this.url = "jdbc:sqlite:" + url;
+        this.url = String.format("%s%s", "jdbc:sqlite:", url);
     }
 
     /**
@@ -81,20 +70,25 @@ public class Performer {
         try {
             Class.forName("org.sqlite.JDBC");
             conn = DriverManager.getConnection(this.url);
+            conn.setAutoCommit(false);
             statmt = conn.createStatement();
 
             statmt.execute("CREATE TABLE if NOT EXISTS 'TEST' ('id' INTEGER PRIMARY KEY AUTOINCREMENT, 'FIELD' INTEGER);");
             statmt.execute("DELETE FROM 'TEST';");
 
-            fillBase(statmt);
+            try {
+                fillBase(statmt);
+                conn.commit();
+            } catch (Exception ex) {
+                conn.rollback();
+            }
 
             createFirstXMLDoc(statmt);
-
             InputStream is = getClass().getResourceAsStream("make_attribute.xsl");
             StreamSource styleSource = new StreamSource(is);
             Transformer t = TransformerFactory.newInstance().newTransformer(styleSource);
             t.transform(new StreamSource("1.xml"), new StreamResult("2.xml"));
-            System.out.println("sum = " + evaluateSumAtrb());
+            System.out.printf("%s = %d", "sum", evaluateSumAtrb());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -113,27 +107,34 @@ public class Performer {
 
     /**
      * Fill base item from 1 to this.count.
-     * @param statmt Statement for execute static SQL statement.
+     * @param statmt PreparedStatement for execute static SQL statement.
      * @throws SQLException SQLException.
      */
     private void fillBase(Statement statmt) throws SQLException {
         int countBuffers = this.count / BUFFER_SIZE;
         StringBuilder sb;
-
+        String command = "INSERT INTO 'TEST' ('FIELD') VALUES";
         if (countBuffers != 0) {
+
             for (int i = 0; i < countBuffers; i++) {
                 sb = itemsSequence(i * BUFFER_SIZE + 1, BUFFER_SIZE * (i + 1));
-                statmt.execute("INSERT INTO 'TEST' ('FIELD') VALUES " + sb.toString());
-                sb.delete(0, sb.length());
+                statmt.addBatch(String.format("%s %s", command, sb.toString()));
             }
 
             if (this.count % BUFFER_SIZE != 0) {
                 sb = itemsSequence(1 + countBuffers * BUFFER_SIZE, this.count);
-                statmt.execute("INSERT INTO 'TEST' ('FIELD') VALUES " + sb.toString());
+                statmt.addBatch(String.format("%s %s", command, sb.toString()));
+            }
+
+            int[] countExec = statmt.executeBatch();
+            for (int x: countExec) {
+                if (x <= 0) {
+                    throw new SQLException();
+                }
             }
         } else {
             sb = itemsSequence(1, this.count);
-            statmt.execute("INSERT INTO 'TEST' ('FIELD') VALUES " + sb.toString());
+            statmt.execute(String.format("%s %s", command, sb.toString()));
         }
     }
 
@@ -160,40 +161,27 @@ public class Performer {
     /**
      * Create xml document with values from data base.
      * @param statmt Statement for execute static SQL statement.
-     * @throws ParserConfigurationException Exception.
      * @throws SQLException Exception.
-     * @throws TransformerException Exception.
-     * @throws FileNotFoundException Exception.
+     * @throws JAXBException Exception.
      */
-    private void createFirstXMLDoc(Statement statmt) throws ParserConfigurationException, SQLException,
-            TransformerException, FileNotFoundException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element rootElement = doc.createElement("entries");
-        Element childEl;
-        Element fieldChildEl;
-        Text textNode;
-        doc.appendChild(rootElement);
-
+    private void createFirstXMLDoc(Statement statmt) throws SQLException, JAXBException {
         ResultSet resSet = statmt.executeQuery("SELECT * FROM 'TEST';");
+        List<Entry> entryList = new LinkedList<>();
         while (resSet.next()) {
             int field = resSet.getInt("FIELD");
-
-            childEl = doc.createElement("entry");
-            fieldChildEl = doc.createElement("field");
-            textNode = doc.createTextNode("" + field);
-            rootElement.appendChild(childEl);
-            childEl.appendChild(fieldChildEl);
-            fieldChildEl.appendChild(textNode);
+            entryList.add(new Entry(field));
         }
-
-        Transformer t = TransformerFactory.newInstance().newTransformer();
-        t.setOutputProperty(OutputKeys.INDENT, "yes");
-        t.setOutputProperty(OutputKeys.METHOD, "xml");
-        t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-        File file = new File(System.getProperty("user.dir") + "\\1.xml");
-        t.transform(new DOMSource(doc), new StreamResult(new FileOutputStream(file)));
+        File file = new File(String.format("%s%s", System.getProperty("user.dir"), "\\1.xml"));
+        Entries entries = new Entries(entryList);
+        try {
+            JAXBContext context = JAXBContext.newInstance(Entries.class);
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshaller.marshal(entries, file);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
 
         if (resSet != null) {
             resSet.close();
@@ -206,7 +194,7 @@ public class Performer {
      * @return sum.
      */
     private long evaluateSumAtrb() {
-        File file = new File(System.getProperty("user.dir") + "\\2.xml");
+        File file = new File(String.format("%s%s", System.getProperty("user.dir"), "\\2.xml"));
         long sum = 0;
         try {
             FileInputStream in = new FileInputStream(file);
