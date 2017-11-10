@@ -26,7 +26,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDescription", 132L);
         tracker.add(item);
-        assertThat(tracker.findAll().get(0), is(item));
+        assertThat(tracker.findById(item.getId()), is(item));
     }
 
 
@@ -43,7 +43,7 @@ public class TrackerTest {
         tracker.add(item2);
         tracker.add(item3);
         String id = item.getId();
-        Item itemUpdate = new Item("test4", "testDescription", 100L);
+        Item itemUpdate = new Item("test4", "testDescription", item.getCreate());
         itemUpdate.setId(id);
         tracker.update(itemUpdate);
         assertThat(tracker.findById(id), is(itemUpdate));
@@ -62,8 +62,12 @@ public class TrackerTest {
         tracker.add(item);
         tracker.add(item2);
         tracker.add(item3);
+
+        int oldSize = tracker.findAll().size();
+
         tracker.delete(item);
-        assertThat(tracker.findByName(item.getName()).size(), is(0));
+        Item nullItem = null;
+        assertThat(tracker.findById(item.getId()), is(nullItem));
     }
 
 
@@ -73,6 +77,10 @@ public class TrackerTest {
     @Test
     public void whenTrackerHasOnlyNullItemsThenFindAllreturnListZeroSize() {
         Tracker tracker = new Tracker();
+        List<Item> items = tracker.findAll();
+        for(Item x : items) {
+            tracker.delete(x);
+        }
         assertThat(tracker.findAll().size(), is(0));
     }
 
@@ -83,6 +91,10 @@ public class TrackerTest {
     @Test
     public void whenTrackerHasSameNameItemsThenFindByNameReturnListItemsSameName() {
         Tracker tracker = new Tracker();
+        List<Item> items = tracker.findAll();
+        for(Item x : items) {
+            tracker.delete(x);
+        }
         Item item = new Item("test", "testDescription", 132L);
         Item item2 = new Item("test", "testDescription2", 144L);
         Item item3 = new Item("test3", "testDescription3", 168L);
@@ -92,7 +104,8 @@ public class TrackerTest {
         List<Item> expectedItems = new ArrayList<>();
         expectedItems.add(item);
         expectedItems.add(item2);
-        assertThat(tracker.findByName(item.getName()), is(expectedItems));
+        List<Item> findItems = tracker.findByName(item.getName());
+        assertThat(findItems.containsAll(expectedItems) && findItems.size() == expectedItems.size(), is(true));
     }
 
 

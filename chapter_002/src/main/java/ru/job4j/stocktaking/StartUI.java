@@ -110,6 +110,7 @@ public class StartUI {
 
             action = showMenuAndReturnAction();
         }
+        tracker.close();
     }
 
     /**

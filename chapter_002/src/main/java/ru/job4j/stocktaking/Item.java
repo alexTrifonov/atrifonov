@@ -113,19 +113,22 @@ public class Item {
         this.create = create;
     }
 
-    /*
+
     @Override
     public boolean equals(Object obj) {
         boolean equals = false;
         if (obj != null && obj.getClass() == this.getClass()) {
             Item objItem = (Item) obj;
-            if (this.name.equals(objItem.name) && this.description.equals(objItem.description) && this.id.equals(objItem.id)) {
+            if (this.name.equals(objItem.name)
+                    && this.description.equals(objItem.description)
+                    && Long.compare(this.create, objItem.create) == 0
+                    && this.id.equals(objItem.id)) {
                 equals = true;
             }
         }
         return equals;
     }
-    */
+
 
     @Override
     public String toString() {
