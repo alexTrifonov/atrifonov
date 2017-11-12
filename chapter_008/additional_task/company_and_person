@@ -1,0 +1,4 @@
+SELECT p.name, c.name FROM person as p, company as c WHERE c.id = p.company_id AND NOT c.id = 5;
+
+SELECT c.name, row_number() OVER (PARTITION BY p.company_id) AS number_of_persons
+  FROM company AS c, person AS p WHERE c.id = p.company_id ORDER BY number_of_persons DESC LIMIT 1;
