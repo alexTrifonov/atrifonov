@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="error">
+    <Appenders>
+        <JDBC name="databaseAppender" tableName="messages">
+            <ConnectionFactory class="ru.job4j.vacancyparser.ConnectionFactory"
+                               method="getDatabaseConnection" />
+            <Column name="MESSAGE" pattern="%message" isUnicode="false" />
+        </JDBC>
+    </Appenders>
+    <Loggers>
+        <Root level="warn">
+            <AppenderRef ref="databaseAppender" />
+        </Root>
+    </Loggers>
+</Configuration>
