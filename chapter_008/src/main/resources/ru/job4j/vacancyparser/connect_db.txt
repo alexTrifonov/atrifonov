@@ -1,0 +1,8 @@
+url-jdbc:postgresql://localhost:5432/first_base
+username-postgres
+password-password
+create_table-CREATE TABLE if NOT EXISTS vacancies (id SERIAL PRIMARY KEY, vacancy_message varchar(300), author varchar(100), date_time timestamp, full_text_vacancy varchar(4000));
+add_new_row-INSERT INTO vacancies (vacancy_message, author, date_time, full_text_vacancy) VALUES (?, ?, ?, ?);
+select_existing-SELECT * FROM vacancies WHERE vacancy_message LIKE ? AND author LIKE ?;
+period-24
+TimeUnit-HOURS

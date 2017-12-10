@@ -1,63 +1,33 @@
 package ru.job4j.vacancyparser;
+import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
+import org.apache.commons.dbcp2.PoolableConnection;
+import org.apache.commons.dbcp2.PoolableConnectionFactory;
+import org.apache.commons.dbcp2.PoolingDataSource;
+import org.apache.commons.pool2.ObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Properties;
 
-import javax.sql.DataSource;
 
-import org.apache.commons.dbcp.DriverManagerConnectionFactory;
-import org.apache.commons.dbcp.PoolableConnection;
-import org.apache.commons.dbcp.PoolableConnectionFactory;
-import org.apache.commons.dbcp.PoolingDataSource;
-import org.apache.commons.pool.impl.GenericObjectPool;
-
-/**
- * Class for get database connection.
- * @author atrifonov.
- * @version 1.
- * @since 27.11.2017.
- */
 public class ConnectionFactory {
-    /**
-     * Interface singleton.
-     */
-    private interface Singleton {
-        /**
-         * Instance ConnectionFactory.
-         */
-        ConnectionFactory INSTANCE = new ConnectionFactory();
+
+
+    private static interface Singleton {
+        final ConnectionFactory INSTANCE = new ConnectionFactory();
     }
 
-    /**
-     * Data source for connection.
-     */
-    private final DataSource dataSource;
 
-    /**
-     * Construct ConnectionFactory.
-     */
+    private final PoolingDataSource<PoolableConnection> dataSource;
+
     private ConnectionFactory() {
-        Properties properties = new Properties();
-        properties.setProperty("user", "postgres");
-        properties.setProperty("password", "password"); // or get properties from some configuration file
-
-        GenericObjectPool<PoolableConnection> pool = new GenericObjectPool<PoolableConnection>();
-        DriverManagerConnectionFactory connectionFactory = new DriverManagerConnectionFactory(
-                "jdbc:postgresql://localhost:5432/first_base", properties
-        );
-        new PoolableConnectionFactory(
-                connectionFactory, pool, null, "SELECT 1", 3, false, false, Connection.TRANSACTION_READ_COMMITTED
-        );
-
-        this.dataSource = new PoolingDataSource(pool);
+        DriverManagerConnectionFactory connectionFactory = new DriverManagerConnectionFactory("jdbc:postgresql://localhost:5432/first_base", "postgres", "password");
+        PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory, null);
+        ObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<>(poolableConnectionFactory);
+        poolableConnectionFactory.setPool(connectionPool);
+        dataSource = new PoolingDataSource<>(connectionPool);
     }
 
-    /**
-     * Getting connection.
-     * @return connection to database.
-     * @throws SQLException exception.
-     */
     public static Connection getDatabaseConnection() throws SQLException {
         return Singleton.INSTANCE.dataSource.getConnection();
     }

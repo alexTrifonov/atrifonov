@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="error">
     <Appenders>
-        <JDBC name="databaseAppender" tableName="messages">
-            <ConnectionFactory class="ru.job4j.vacancyparser.ConnectionFactory"
-                               method="getDatabaseConnection" />
-            <Column name="MESSAGE" pattern="%message" isUnicode="false" />
-        </JDBC>
+        <Console name = "Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{dd MMM yyyy HH:mm:ss} [%-15.15t] %-5level %38.38logger{38} - %msg%n"/>
+        </Console>
     </Appenders>
     <Loggers>
-        <Root level="warn">
-            <AppenderRef ref="databaseAppender" />
+        <Logger name="ru.job4j.vacancyparser.RecordBase" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="ru.job4j.vacancyparser.VacanciesItems" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Root level="all">
+            <AppenderRef ref="Console" />
         </Root>
     </Loggers>
 </Configuration>
