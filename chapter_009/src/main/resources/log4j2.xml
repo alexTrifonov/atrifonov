@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="error">
+    <Appenders>
+        <Console name = "Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{dd MMM yyyy HH:mm:ss} [%-15.15t] %-5level %38.38logger{38} - %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="ru.job4j.servlets.EchoServlet" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Root level="all">
+            <AppenderRef ref="Console" />
+        </Root>
+    </Loggers>
+</Configuration>
