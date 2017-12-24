@@ -9,6 +9,15 @@
         <Logger name="ru.job4j.servlets.EchoServlet" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
+        <Logger name="ru.job4j.servlets.ConnectionFactory" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="ru.job4j.servlets.UsersServlet" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="ru.job4j.servlets.UserStore" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
         <Root level="all">
             <AppenderRef ref="Console" />
         </Root>

@@ -169,7 +169,7 @@ public class Performer {
         List<Entry> entryList = new LinkedList<>();
         while (resSet.next()) {
             int field = resSet.getInt("FIELD");
-            entryList.add(new Entry(field));
+            //entryList.add(new Entry(field));
         }
         File file = new File(String.format("%s%s", System.getProperty("user.dir"), "\\1.xml"));
         Entries entries = new Entries(entryList);

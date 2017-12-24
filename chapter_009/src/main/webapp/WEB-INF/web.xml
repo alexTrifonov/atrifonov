@@ -1,10 +1,15 @@
 <web-app>
     <servlet>
-        <servlet-name>EchoServlet</servlet-name>
-        <servlet-class>ru.job4j.servlets.EchoServlet</servlet-class>
+        <!--servlet-name>EchoServlet</servlet-name-->
+        <servlet-name>UsersServlet</servlet-name>
+        <!--servlet-class>ru.job4j.servlets.EchoServlet</servlet-class-->
+        <servlet-class>ru.job4j.servlets.UsersServlet</servlet-class>
+        <!--load-on-startup>1</load-on-startup-->
     </servlet>
     <servlet-mapping>
-        <servlet-name>EchoServlet</servlet-name>
-        <url-pattern>/echo</url-pattern>
+        <!--servlet-name>EchoServlet</servlet-name-->
+         <servlet-name>UsersServlet</servlet-name>
+        <!--url-pattern>/echo</url-pattern-->
+        <url-pattern>/users</url-pattern>
     </servlet-mapping>
 </web-app>
