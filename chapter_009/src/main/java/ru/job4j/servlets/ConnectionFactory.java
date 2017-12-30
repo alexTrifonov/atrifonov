@@ -9,8 +9,12 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * Class for connections to database.
@@ -42,8 +46,22 @@ public class ConnectionFactory {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        Properties prop = new Properties();
+        String url = null;
+        String user = null;
+        String password = null;
+        try {
+            InputStream is = getClass().getResourceAsStream("config.properties");
+            BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            prop.load(br);
+            url = prop.getProperty("url");
+            user = prop.getProperty("user");
+            password = prop.getProperty("password");
 
-        DriverManagerConnectionFactory connectionFactory = new DriverManagerConnectionFactory("jdbc:postgresql://localhost:5432/first_base", "postgres", "password");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        DriverManagerConnectionFactory connectionFactory = new DriverManagerConnectionFactory(url, user, password);
         PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory, null);
         ObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<>(poolableConnectionFactory);
         poolableConnectionFactory.setPool(connectionPool);

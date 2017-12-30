@@ -20,7 +20,12 @@ public class UserStore {
     /**
      * Instance of UserStore.
      */
-    private static final UserStore INSTANCE = new UserStore();
+    //private static final UserStore INSTANCE = new UserStore();
+    private static volatile UserStore instance;
+    /**
+     * Mutex.
+     */
+    private static Object mutex = new Object();
     /**
      * Logger.
      */
@@ -43,7 +48,17 @@ public class UserStore {
      * @return INSTANCE.
      */
     public static UserStore getInstance() {
-        return INSTANCE;
+        UserStore result = instance;
+        if (result == null) {
+            synchronized (mutex) {
+                result = instance;
+                if (result == null) {
+                    result = new UserStore();
+                    instance = result;
+                }
+            }
+        }
+        return result;
     }
 
     /**
@@ -53,9 +68,9 @@ public class UserStore {
      */
     public User add(User user) {
         try (Connection conn = ConnectionFactory.getDatabaseConnection();
-            PreparedStatement prepStm = conn.prepareStatement("INSERT INTO users_servlet (name, login, email, create_date) VALUES (?, ?, ?, ?) RETURNING id;");
-            PreparedStatement prepStmSelect = conn.prepareStatement("SELECT * FROM users_servlet WHERE users_servlet.name = ? AND users_servlet.login = ? "
-                    + "AND users_servlet.email = ? AND users_servlet.create_date = ?;")) {
+             PreparedStatement prepStm = conn.prepareStatement("INSERT INTO users_servlet (name, login, email, create_date) VALUES (?, ?, ?, ?) RETURNING id;");
+             PreparedStatement prepStmSelect = conn.prepareStatement("SELECT * FROM users_servlet WHERE users_servlet.name = ? AND users_servlet.login = ? "
+                     + "AND users_servlet.email = ? AND users_servlet.create_date = ?;")) {
             prepStmSelect.setString(1, user.getName());
             prepStmSelect.setString(2, user.getLogin());
             prepStmSelect.setString(3, user.getEmail());
@@ -95,7 +110,7 @@ public class UserStore {
      */
     public void update(User newUser) {
         try (Connection conn = ConnectionFactory.getDatabaseConnection();
-            PreparedStatement prepStm = conn.prepareStatement("UPDATE users_servlet set name = ?, login = ?, email = ?, create_date = ? WHERE id = ? ;")) {
+             PreparedStatement prepStm = conn.prepareStatement("UPDATE users_servlet set name = ?, login = ?, email = ?, create_date = ? WHERE id = ? ;")) {
             prepStm.setString(1, newUser.getName());
             prepStm.setString(2, newUser.getLogin());
             prepStm.setString(3, newUser.getEmail());
@@ -116,8 +131,8 @@ public class UserStore {
      */
     public void delete(int id) {
         try (Connection conn = ConnectionFactory.getDatabaseConnection();
-            PreparedStatement prepStm = conn.prepareStatement("DELETE FROM users_servlet WHERE id = ?");
-        PreparedStatement prepStmSelect = conn.prepareStatement("SELECT * FROM users_servlet WHERE  id = ?")) {
+             PreparedStatement prepStm = conn.prepareStatement("DELETE FROM users_servlet WHERE id = ?");
+             PreparedStatement prepStmSelect = conn.prepareStatement("SELECT * FROM users_servlet WHERE  id = ?")) {
             prepStm.setInt(1, id);
             prepStmSelect.setInt(1, id);
             ResultSet resultSet = prepStmSelect.executeQuery();
@@ -133,13 +148,34 @@ public class UserStore {
     }
 
     /**
+     * Get user from database with assigned id.
+     * @param id id of user.
+     * @return user.
+     */
+    public User getUser(int id) {
+        User user = null;
+        try (Connection conn = ConnectionFactory.getDatabaseConnection();
+            PreparedStatement getUserFromDB = conn.prepareStatement("SELECT name, login, email, create_date FROM users_servlet WHERE id = ?")) {
+            getUserFromDB.setInt(1, id);
+            ResultSet resultSet = getUserFromDB.executeQuery();
+            if (resultSet.next()) {
+                LocalDateTime dateTime = resultSet.getTimestamp("create_date").toLocalDateTime();
+                user = new User(resultSet.getString("name"), resultSet.getString("login"), resultSet.getString("email"), dateTime);
+                user.setId(id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+    /**
      * Get list of all users.
      * @return list of users.
      */
     public List<User> getUsers() {
         List<User> list = new LinkedList<>();
         try (Connection conn = ConnectionFactory.getDatabaseConnection();
-        PreparedStatement prepStm = conn.prepareStatement("SELECT * FROM users_servlet")) {
+             PreparedStatement prepStm = conn.prepareStatement("SELECT * FROM users_servlet ORDER BY name")) {
             ResultSet resSet = prepStm.executeQuery();
             while (resSet.next()) {
                 int id = resSet.getInt(1);
