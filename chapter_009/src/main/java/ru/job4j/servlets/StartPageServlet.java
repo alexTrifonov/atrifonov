@@ -19,7 +19,7 @@ public class StartPageServlet extends HttpServlet {
     /**
      * Instance of UserStore.
      */
-    private final UserStore userStore = UserStore.getInstance();
+    private final UserStore userStore = UserStore.INSTANCE;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;UTF-8");

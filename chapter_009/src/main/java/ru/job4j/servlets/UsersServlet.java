@@ -25,7 +25,7 @@ public class UsersServlet extends HttpServlet {
     /**
      * Store for users.
      */
-    private final UserStore userStore = UserStore.getInstance();
+    private final UserStore userStore = UserStore.INSTANCE;
     /**
      * Logger.
      */

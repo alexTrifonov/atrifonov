@@ -16,16 +16,11 @@ import java.util.Locale;
 /**
  * Class for store of user in database.
  */
-public class UserStore {
+public enum UserStore {
     /**
      * Instance of UserStore.
      */
-    //private static final UserStore INSTANCE = new UserStore();
-    private static volatile UserStore instance;
-    /**
-     * Mutex.
-     */
-    private static Object mutex = new Object();
+    INSTANCE;
     /**
      * Logger.
      */
@@ -33,7 +28,7 @@ public class UserStore {
     /**
      * Construct UserStore.
      */
-    private UserStore() {
+    UserStore() {
         try (Connection conn = ConnectionFactory.getDatabaseConnection();
              PreparedStatement preparedStatement = conn.prepareStatement("CREATE TABLE if NOT EXISTS users_servlet(id SERIAL PRIMARY KEY, "
                      + "name VARCHAR(100), login VARCHAR(100), email VARCHAR (100), create_date TIMESTAMP);");) {
@@ -41,24 +36,6 @@ public class UserStore {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Get single INSTANCE of UserStore.
-     * @return INSTANCE.
-     */
-    public static UserStore getInstance() {
-        UserStore result = instance;
-        if (result == null) {
-            synchronized (mutex) {
-                result = instance;
-                if (result == null) {
-                    result = new UserStore();
-                    instance = result;
-                }
-            }
-        }
-        return result;
     }
 
     /**
