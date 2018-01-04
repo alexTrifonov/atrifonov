@@ -7,21 +7,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Class for delete user from store.
+ * Class for start page of application.
  * @author atrifonov.
  * @version 1.
- * @since 30.12.2017.
+ * @since 04.01.2018.
  */
-public class DeleteServlet extends HttpServlet {
-    /**
-     * Instance of UserStore.
-     */
-    private final UserStore userStore = UserStore.INSTANCE;
+public class StartPageServletWithJSP extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("id");
-        userStore.delete(Integer.parseInt(id));
-        //resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/start"));
+        resp.setContentType("text/html;UTF-8");
         resp.sendRedirect(String.format("%s/start.jsp", req.getContextPath()));
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
     }
 }

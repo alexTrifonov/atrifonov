@@ -51,4 +51,32 @@
         <servlet-name>AddServlet</servlet-name>
         <url-pattern>/add</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>StartPageServletWithJSP</servlet-name>
+        <servlet-class>ru.job4j.servlets.StartPageServletWithJSP</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StartPageServletWithJSP</servlet-name>
+        <url-pattern>/startWithJSP</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddServletWithJSP</servlet-name>
+        <servlet-class>ru.job4j.servlets.AddServletWithJSP</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddServletWithJSP</servlet-name>
+        <url-pattern>/addServlJSP</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditServletWithJSP</servlet-name>
+        <servlet-class>ru.job4j.servlets.EditServletWithJSP</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditServletWithJSP</servlet-name>
+        <url-pattern>/editServlJSP</url-pattern>
+    </servlet-mapping>
 </web-app>
