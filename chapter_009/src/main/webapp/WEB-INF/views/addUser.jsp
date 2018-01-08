@@ -11,7 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="<%=request.getContextPath()%>/addServlJSP" method="post">
+    <form action="${pageContext.servletContext.contextPath}/addServletJSP" method="post">
         Name : <input type="text" name="name"/>
         login : <input type="text" name="login"/>
         email : <input type="text" name="email"/>

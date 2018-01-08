@@ -68,7 +68,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>AddServletWithJSP</servlet-name>
-        <url-pattern>/addServlJSP</url-pattern>
+        <url-pattern>/addServletJSP</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -77,6 +77,6 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>EditServletWithJSP</servlet-name>
-        <url-pattern>/editServlJSP</url-pattern>
+        <url-pattern>/editServletJSP</url-pattern>
     </servlet-mapping>
 </web-app>

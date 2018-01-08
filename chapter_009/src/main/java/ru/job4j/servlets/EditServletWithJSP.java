@@ -4,12 +4,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 /**
  * Class for editing user.
@@ -25,10 +22,9 @@ public class EditServletWithJSP extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        System.out.println("id=" + req.getParameter("id"));
-        req.getSession().setAttribute("id", req.getParameter("id"));
-        resp.sendRedirect(String.format("%s/editUser.jsp", req.getContextPath()));
+        req.setAttribute("user", UserStore.INSTANCE.getUser(Integer.parseInt(req.getParameter("id"))));
+        req.setAttribute("formatter", DateTimeFormatter.ofPattern("dd MM yyyy, HH:mm:ss"));
+        req.getRequestDispatcher("/WEB-INF/views/editUser.jsp").forward(req, resp);
     }
 
     @Override
@@ -42,6 +38,6 @@ public class EditServletWithJSP extends HttpServlet {
         Integer id = Integer.parseInt(req.getParameter("id"));
         user.setId(id);
         userStore.update(user);
-        resp.sendRedirect(String.format("%s/start.jsp", req.getContextPath()));
+        resp.sendRedirect(String.format("%s/startWithJSP", req.getContextPath()));
     }
 }

@@ -21,7 +21,6 @@ public class DeleteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
         userStore.delete(Integer.parseInt(id));
-        //resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/start"));
-        resp.sendRedirect(String.format("%s/start.jsp", req.getContextPath()));
+        resp.sendRedirect(String.format("%s/startWithJSP", req.getContextPath()));
     }
 }
