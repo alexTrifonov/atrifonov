@@ -26,22 +26,34 @@ public class User {
      */
     private String email;
     /**
+     * Role of user.
+     */
+    private String roleName;
+    /**
      * Date of create of user.
      */
     private LocalDateTime createDate;
+    /**
+     * Password of user.
+     */
+    private String password;
 
     /**
      * Construct user without id.
      * @param name name of user.
      * @param login login of user.
      * @param email email of user.
+     * @param roleName role of user.
      * @param createDate date of create user.
+     * @param password password of user.
      */
-    public User(String name, String login, String email, LocalDateTime createDate) {
+    public User(String name, String login, String email, String roleName, LocalDateTime createDate, String password) {
         this.name = name;
         this.login = login;
         this.email = email;
+        this.roleName = roleName;
         this.createDate = createDate;
+        this.password = password;
     }
 
     /**
@@ -74,6 +86,22 @@ public class User {
      */
     public LocalDateTime getCreateDate() {
         return createDate;
+    }
+
+    /**
+     * Get role of user.
+     * @return role.
+     */
+    public String getRoleName() {
+        return roleName;
+    }
+
+    /**
+     * Get password of user.
+     * @return password.
+     */
+    public String getPassword() {
+        return password;
     }
 
     /**

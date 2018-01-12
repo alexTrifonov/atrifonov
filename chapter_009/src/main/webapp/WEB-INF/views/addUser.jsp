@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%--
   Created by IntelliJ IDEA.
   User: Alexandr
@@ -11,12 +12,45 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="${pageContext.servletContext.contextPath}/addServletJSP" method="post">
-        Name : <input type="text" name="name"/>
-        login : <input type="text" name="login"/>
-        email : <input type="text" name="email"/>
-        createDate : <input type="text" name="createDate"/>
-        <input type="submit" value="add new user"/>
-    </form>
+<form action="${pageContext.servletContext.contextPath}/addServletJSP" method="post">
+    <table>
+        <tr>
+            <td>Name : </td>
+            <td><input type="text" name="name"/></td>
+        </tr>
+        <tr>
+            <td>login : </td>
+            <td><input type="text" name="login"/></td>
+        </tr>
+        <tr>
+            <td>email : </td>
+            <td><input type="text" name="email"/></td>
+        </tr>
+        <tr>
+            <td>role :</td>
+            <td>
+                <select size="1" name="role_name">
+                    <c:forEach items="${roles}" var="role">
+                        <option>${role.roleName}</option>
+                    </c:forEach>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>createDate : </td>
+            <td><input type="text" name="createDate"/></td>
+        </tr>
+        <tr>
+            <td>password : </td>
+            <td><input type="password" name="password"/></td>
+        </tr>
+        <tr>
+            <td>confirm password : </td>
+            <td><input type="password" name="confirmPassword"/></td>
+        </tr>
+    </table>
+    <br/>
+    <input type="submit" value="add new user"/>
+</form>
 </body>
 </html>

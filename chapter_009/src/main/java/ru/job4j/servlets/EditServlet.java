@@ -58,12 +58,15 @@ public class EditServlet extends HttpServlet {
         String name = req.getParameter("name");
         String login = req.getParameter("login");
         String email = req.getParameter("email");
+        String roleName = req.getParameter("roleName");
         String dateString = req.getParameter("createDate");
         LocalDateTime createDate = LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern("dd MM yyyy, HH:mm:ss"));
-        User user = new User(name, login, email, createDate);
+        String password = req.getParameter("password");
+        User user = new User(name, login, email, roleName, createDate, password);
         Integer id = Integer.parseInt(req.getParameter("id"));
         user.setId(id);
         userStore.update(user);
+        System.out.println("req.getContextPath() = " + req.getContextPath());
         resp.sendRedirect((req.getContextPath() + "/start"));
     }
 }

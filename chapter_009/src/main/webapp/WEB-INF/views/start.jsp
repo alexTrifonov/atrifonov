@@ -16,26 +16,38 @@
     <title>Title</title>
 </head>
 <body>
-    <table style="border: 1px solid black;" cellpadding="1" cellspacing="1" border="1">
+<table style="border: 1px solid black;" cellpadding="1" cellspacing="1" border="1">
+    <tr>
+        <th>Name</th>
+        <th>login</th>
+        <th>email</th>
+        <th>role</th>
+        <th>date of creation</th>
+    </tr>
+    <c:forEach items="${requestScope.users}" var="user">
         <tr>
-            <th>Name</th>
-            <th>login</th>
-            <th>email</th>
-            <th>date of creation</th>
+            <td><c:out value="${user.name}"></c:out></td>
+            <td><c:out value="${user.login}"></c:out></td>
+            <td><c:out value="${user.email}"></c:out></td>
+            <td><c:out value="${user.roleName}"></c:out></td>
+            <td><c:out value="${user.createDate.format(requestScope.formatter)}"></c:out></td>
+            <td><a href="${pageContext.servletContext.contextPath}/editServletJSP?id=${user.id}">edit</a> </td>
+            <td>
+                <c:if test="${sessionScope.role == \"admin\"}">
+                    <a href="${pageContext.servletContext.contextPath}/delete?id=${user.id}">delete</a>
+                </c:if>
+            </td>
         </tr>
-        <c:forEach items="${requestScope.users}" var="user">
-            <tr>
-                <td><c:out value="${user.name}"></c:out></td>
-                <td><c:out value="${user.login}"></c:out></td>
-                <td><c:out value="${user.email}"></c:out></td>
-                <td><c:out value="${user.createDate.format(requestScope.formatter)}"></c:out></td>
-                <td><a href="${pageContext.servletContext.contextPath}/editServletJSP?id=${user.id}">edit</a> </td>
-                <td><a href="${pageContext.servletContext.contextPath}/delete?id=${user.id}">delete</a> </td>
-            </tr>
-        </c:forEach>
-    </table>
-    <form action="${pageContext.servletContext.contextPath}/addServletJSP" method="get">
+    </c:forEach>
+</table>
+<form action="${pageContext.servletContext.contextPath}/addServletJSP" method="get">
+    <c:if test="${sessionScope.role == \"admin\"}">
         <input type="submit" value="add new user"/>
-    </form>
+    </c:if>
+</form>
+<form action="${pageContext.servletContext.contextPath}/login" method="get">
+    <input type="hidden" name="exit" value="true"/>
+    <input type="submit" value="exit"/>
+</form>
 </body>
 </html>
