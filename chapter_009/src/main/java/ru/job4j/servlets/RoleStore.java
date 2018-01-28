@@ -21,9 +21,9 @@ public enum  RoleStore {
      */
     RoleStore() {
         try (Connection conn = ConnectionFactory.getDatabaseConnection();
-            PreparedStatement prepStm = conn.prepareStatement("CREATE TABLE if NOT EXISTS role_store (id SERIAL PRIMARY KEY ,"
-                    + "role_name VARCHAR(100), can_update_user boolean, can_add_user boolean, can_delete_user boolean, can_change_role boolean, can_add_role boolean);");
-            PreparedStatement selectAll = conn.prepareStatement("SELECT * FROM role_store;");) {
+             PreparedStatement prepStm = conn.prepareStatement("CREATE TABLE if NOT EXISTS role_store (id SERIAL PRIMARY KEY ,"
+                     + "role_name VARCHAR(100), can_update_user boolean, can_add_user boolean, can_delete_user boolean, can_change_role boolean, can_add_role boolean);");
+             PreparedStatement selectAll = conn.prepareStatement("SELECT * FROM role_store;");) {
             prepStm.executeUpdate();
             ResultSet setAll = selectAll.executeQuery();
             if (!setAll.next()) {
@@ -42,25 +42,25 @@ public enum  RoleStore {
      */
     public Role add(Role role) {
         try (Connection conn = ConnectionFactory.getDatabaseConnection();
-             PreparedStatement prepStm = conn.prepareStatement("INSERT INTO role_store (role_name, can_update_user, can_add_user, can_delete_user, can_change_role, can_add_role) VALUES (?, ?, ?, ?, ?, ?) RETURNING id;");
-             PreparedStatement prepStmSelect = conn.prepareStatement("SELECT * FROM role_store WHERE role_store.role_name = ? AND role_store.can_update_user = ? "
+             PreparedStatement insertRole = conn.prepareStatement("INSERT INTO role_store (role_name, can_update_user, can_add_user, can_delete_user, can_change_role, can_add_role) VALUES (?, ?, ?, ?, ?, ?) RETURNING id;");
+             PreparedStatement selectRole = conn.prepareStatement("SELECT * FROM role_store WHERE role_store.role_name = ? AND role_store.can_update_user = ? "
                      + "AND role_store.can_add_user = ? AND role_store.can_delete_user = ? AND role_store.can_change_role = ? AND role_store.can_add_role = ?;")) {
-            prepStmSelect.setString(1, role.getRoleName());
-            prepStmSelect.setBoolean(2, role.isCanUpdateUser());
-            prepStmSelect.setBoolean(3, role.isCanAddUser());
-            prepStmSelect.setBoolean(4, role.isCanDeleteUser());
-            prepStmSelect.setBoolean(5, role.isCanChangeRole());
-            prepStmSelect.setBoolean(6, role.isCanAddRole());
-            ResultSet resSet = prepStmSelect.executeQuery();
+            selectRole.setString(1, role.getRoleName());
+            selectRole.setBoolean(2, role.isCanUpdateUser());
+            selectRole.setBoolean(3, role.isCanAddUser());
+            selectRole.setBoolean(4, role.isCanDeleteUser());
+            selectRole.setBoolean(5, role.isCanChangeRole());
+            selectRole.setBoolean(6, role.isCanAddRole());
+            ResultSet resSet = selectRole.executeQuery();
 
             if (!resSet.next()) {
-                prepStm.setString(1, role.getRoleName());
-                prepStm.setBoolean(2, role.isCanUpdateUser());
-                prepStm.setBoolean(3, role.isCanAddUser());
-                prepStm.setBoolean(4, role.isCanDeleteUser());
-                prepStm.setBoolean(5, role.isCanChangeRole());
-                prepStm.setBoolean(6, role.isCanAddRole());
-                ResultSet resultSetInsert = prepStm.executeQuery();
+                insertRole.setString(1, role.getRoleName());
+                insertRole.setBoolean(2, role.isCanUpdateUser());
+                insertRole.setBoolean(3, role.isCanAddUser());
+                insertRole.setBoolean(4, role.isCanDeleteUser());
+                insertRole.setBoolean(5, role.isCanChangeRole());
+                insertRole.setBoolean(6, role.isCanAddRole());
+                ResultSet resultSetInsert = insertRole.executeQuery();
                 if (resultSetInsert.next()) {
                     int id = resultSetInsert.getInt(1);
                     role.setId(id);
@@ -123,8 +123,8 @@ public enum  RoleStore {
             getRoleFromDB.setInt(1, id);
             ResultSet resultSet = getRoleFromDB.executeQuery();
             if (resultSet.next()) {
-                role = new Role(resultSet.getString("roleName"), resultSet.getBoolean("canUpdateUser"), resultSet.getBoolean("canAddUser"),
-                        resultSet.getBoolean("canDeleteUser"), resultSet.getBoolean("canChangeRole"), resultSet.getBoolean("canAddRole"));
+                role = new Role(resultSet.getString("role_name"), resultSet.getBoolean("can_update_user"), resultSet.getBoolean("can_add_user"),
+                        resultSet.getBoolean("can_delete_user"), resultSet.getBoolean("can_change_role"), resultSet.getBoolean("can_add_role"));
                 role.setId(id);
             }
         } catch (SQLException e) {

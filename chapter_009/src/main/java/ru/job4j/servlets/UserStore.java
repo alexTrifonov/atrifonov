@@ -29,11 +29,12 @@ public enum UserStore {
     UserStore() {
         try (Connection conn = ConnectionFactory.getDatabaseConnection();
              PreparedStatement preparedStatement = conn.prepareStatement("CREATE TABLE if NOT EXISTS users_servlet(id SERIAL PRIMARY KEY, "
-                     + "name VARCHAR(100), login VARCHAR(100), email VARCHAR (100), id_role INTEGER REFERENCES role_store (id), create_date TIMESTAMP, password VARCHAR(100));");
+                     + "name VARCHAR(100), login VARCHAR(100), email VARCHAR (100), id_role INTEGER REFERENCES role_store (id), create_date TIMESTAMP, password VARCHAR(100),"
+                     + " country VARCHAR(100), city VARCHAR(100));");
              PreparedStatement selectAll = conn.prepareStatement("SELECT * FROM users_servlet;");
              PreparedStatement selectAdminRole = conn.prepareStatement("SELECT * FROM role_store WHERE role_name = 'admin'");
-             PreparedStatement insertAdmin = conn.prepareStatement("INSERT INTO users_servlet (name, login, email, id_role, create_date, password) VALUES"
-                     + " ('admin', 'admin', 'mail', ?, '12 01 2018, 21:38:30', 'password')")
+             PreparedStatement insertAdmin = conn.prepareStatement("INSERT INTO users_servlet (name, login, email, id_role, create_date, password, country, city) VALUES"
+                     + " ('admin', 'admin', 'mail', ?, '12 01 2018, 21:38:30', 'password', 'Russia', 'Yekaterinburg')")
         ) {
             preparedStatement.executeUpdate();
             ResultSet setAll = selectAll.executeQuery();
@@ -55,6 +56,46 @@ public enum UserStore {
      * @return user with id.
      */
     public User add(User user) {
+
+        try (Connection conn = ConnectionFactory.getDatabaseConnection();
+            PreparedStatement insertUser = conn.prepareStatement("INSERT INTO users_servlet (name, login, email, id_role, create_date, password, country, city)"
+                    + " SELECT ?, ?, ?, ?, ?, ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM users_servlet WHERE login = ? OR email = ?) RETURNING id;");
+             PreparedStatement selectRole = conn.prepareStatement("SELECT * FROM role_store WHERE role_name = ?")) {
+
+            selectRole.setString(1, user.getRoleName());
+            ResultSet setRole = selectRole.executeQuery();
+            setRole.next();
+            int idRole = setRole.getInt("id");
+            insertUser.setString(1, user.getName());
+            insertUser.setString(2, user.getLogin());
+            insertUser.setString(3, user.getEmail());
+            insertUser.setInt(4, idRole);
+            insertUser.setTimestamp(5, Timestamp.valueOf(user.getCreateDate()));
+            insertUser.setString(6, user.getPassword());
+            insertUser.setString(7, user.getCountry());
+            insertUser.setString(8, user.getCity());
+            insertUser.setString(9, user.getLogin());
+            insertUser.setString(10, user.getEmail());
+
+            ResultSet setUser = insertUser.executeQuery();
+            int id = -1;
+            if (setUser.next()) {
+                id = setUser.getInt("id");
+                user.setId(id);
+
+                USER_STORE.info(String.format("Insert user: id = %d, name = %s, login = %s, email = %s, roleName = %d, create_date = %s, country = %s, city = %s%n",
+                        id, user.getName(), user.getLogin(), user.getEmail(), idRole,
+                        user.getCreateDate().format(DateTimeFormatter.ofPattern("dd MMM yy, HH:mm:ss", new Locale("en"))), user.getCountry(), user.getCity()));
+
+            }
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+        /*
         try (Connection conn = ConnectionFactory.getDatabaseConnection();
              PreparedStatement prepStm = conn.prepareStatement("INSERT INTO users_servlet (name, login, email, id_role, create_date, password) VALUES (?, ?, ?, ?, ?, ?) RETURNING id;");
              PreparedStatement prepStmSelect = conn.prepareStatement("SELECT * FROM users_servlet WHERE users_servlet.name = ? AND users_servlet.login = ? "
@@ -98,6 +139,7 @@ public enum UserStore {
             e.printStackTrace();
         }
         return user;
+        */
     }
 
     /**
@@ -106,7 +148,7 @@ public enum UserStore {
      */
     public void update(User newUser) {
         try (Connection conn = ConnectionFactory.getDatabaseConnection();
-             PreparedStatement prepStm = conn.prepareStatement("UPDATE users_servlet set name = ?, login = ?, email = ?, id_role = ?, create_date = ?, password = ? WHERE id = ? ;");
+             PreparedStatement prepStm = conn.prepareStatement("UPDATE users_servlet set name = ?, login = ?, email = ?, id_role = ?, create_date = ?, password = ?, country = ?, city = ? WHERE id = ? ;");
              PreparedStatement prepStmRole = conn.prepareStatement("SELECT * FROM role_store WHERE role_store.role_name = ?")) {
             prepStmRole.setString(1, newUser.getRoleName());
             ResultSet setRole = prepStmRole.executeQuery();
@@ -119,11 +161,13 @@ public enum UserStore {
             prepStm.setInt(4, idRole);
             prepStm.setTimestamp(5, Timestamp.valueOf(newUser.getCreateDate()));
             prepStm.setString(6, newUser.getPassword());
-            prepStm.setInt(7, newUser.getId());
+            prepStm.setString(7, newUser.getCountry());
+            prepStm.setString(8, newUser.getCity());
+            prepStm.setInt(9, newUser.getId());
             prepStm.executeUpdate();
-            USER_STORE.info(String.format("Update user with id = %d: name = %s, login = %s, email = %s, id_role = %d, create_date = %s%n", newUser.getId(),
+            USER_STORE.info(String.format("Update user with id = %d: name = %s, login = %s, email = %s, id_role = %d, create_date = %s, country = %s, city = %s%n", newUser.getId(),
                     newUser.getName(), newUser.getLogin(), newUser.getEmail(), idRole,
-                    newUser.getCreateDate().format(DateTimeFormatter.ofPattern("dd MMM yy, HH:mm:ss", new Locale("en")))));
+                    newUser.getCreateDate().format(DateTimeFormatter.ofPattern("dd MMM yy, HH:mm:ss", new Locale("en"))), newUser.getCountry(), newUser.getCity()));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -142,9 +186,9 @@ public enum UserStore {
             ResultSet resultSet = prepStmSelect.executeQuery();
             prepStm.executeUpdate();
             if (resultSet.next()) {
-                USER_STORE.info(String.format("Delete user with id = %d: name = %s, login = %s, email = %s, id_role = %d, create_date = %s%n",
+                USER_STORE.info(String.format("Delete user with id = %d: name = %s, login = %s, email = %s, id_role = %d, create_date = %s, country = %s, city = %s%n",
                         resultSet.getInt(1), resultSet.getString("name"), resultSet.getString("login"), resultSet.getString("email"), resultSet.getInt("id_role"),
-                        resultSet.getTimestamp("create_date")));
+                        resultSet.getTimestamp("create_date"), resultSet.getString("country"), resultSet.getString("city")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -159,7 +203,7 @@ public enum UserStore {
     public User getUser(int id) {
         User user = null;
         try (Connection conn = ConnectionFactory.getDatabaseConnection();
-             PreparedStatement getUserFromDB = conn.prepareStatement("SELECT name, login, email, id_role, create_date, password FROM users_servlet WHERE id = ?");
+             PreparedStatement getUserFromDB = conn.prepareStatement("SELECT name, login, email, id_role, create_date, password, country, city FROM users_servlet WHERE id = ?");
              PreparedStatement prepStRoleName = conn.prepareStatement("SELECT role_name FROM role_store WHERE id = ?")) {
             getUserFromDB.setInt(1, id);
             ResultSet resultSet = getUserFromDB.executeQuery();
@@ -169,7 +213,7 @@ public enum UserStore {
                 LocalDateTime dateTime = resultSet.getTimestamp("create_date").toLocalDateTime();
                 setRole.next();
                 user = new User(resultSet.getString("name"), resultSet.getString("login"), resultSet.getString("email"), setRole.getString("role_name"), dateTime,
-                        resultSet.getString("password"));
+                        resultSet.getString("password"), resultSet.getString("country"), resultSet.getString("city"));
                 user.setId(id);
             }
         } catch (SQLException e) {
@@ -186,7 +230,7 @@ public enum UserStore {
     public User getUser(String login) {
         User user = null;
         try (Connection conn = ConnectionFactory.getDatabaseConnection();
-             PreparedStatement getUserFromDB = conn.prepareStatement("SELECT id, name, login, email, id_role, create_date, password FROM users_servlet WHERE login = ?");
+             PreparedStatement getUserFromDB = conn.prepareStatement("SELECT id, name, login, email, id_role, create_date, password, country, city FROM users_servlet WHERE login = ?");
              PreparedStatement prepStRoleName = conn.prepareStatement("SELECT role_name FROM role_store WHERE id = ?")) {
             getUserFromDB.setString(1, login);
             ResultSet resultSet = getUserFromDB.executeQuery();
@@ -196,7 +240,7 @@ public enum UserStore {
                 LocalDateTime dateTime = resultSet.getTimestamp("create_date").toLocalDateTime();
                 setRole.next();
                 user = new User(resultSet.getString("name"), resultSet.getString("login"), resultSet.getString("email"), setRole.getString("role_name"), dateTime,
-                        resultSet.getString("password"));
+                        resultSet.getString("password"), resultSet.getString("country"), resultSet.getString("city"));
                 user.setId(resultSet.getInt("id"));
             }
         } catch (SQLException e) {
@@ -227,7 +271,9 @@ public enum UserStore {
                 setRole.next();
                 LocalDateTime createDate = resSet.getTimestamp(6).toLocalDateTime();
                 String password = resSet.getString(7);
-                User user = new User(name, login, email, setRole.getString("role_name"), createDate, password);
+                String country = resSet.getString("country");
+                String city = resSet.getString("city");
+                User user = new User(name, login, email, setRole.getString("role_name"), createDate, password, country, city);
                 user.setId(id);
                 list.add(user);
             }

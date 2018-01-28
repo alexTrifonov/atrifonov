@@ -39,6 +39,16 @@ public class User {
     private String password;
 
     /**
+     * Country of user.
+     */
+    private String country;
+
+    /**
+     * City of user.
+     */
+    private String city;
+
+    /**
      * Construct user without id.
      * @param name name of user.
      * @param login login of user.
@@ -46,14 +56,18 @@ public class User {
      * @param roleName role of user.
      * @param createDate date of create user.
      * @param password password of user.
+     * @param country country.
+     * @param city city.
      */
-    public User(String name, String login, String email, String roleName, LocalDateTime createDate, String password) {
+    public User(String name, String login, String email, String roleName, LocalDateTime createDate, String password, String country, String city) {
         this.name = name;
         this.login = login;
         this.email = email;
         this.roleName = roleName;
         this.createDate = createDate;
         this.password = password;
+        this.country = country;
+        this.city = city;
     }
 
     /**
@@ -119,4 +133,22 @@ public class User {
     public void setId(int id) {
         this.id = id;
     }
+
+    /**
+     * Get country.
+     * @return country.
+     */
+    public String getCountry() {
+        return country;
+    }
+
+    /**
+     * Get city.
+     * @return city.
+     */
+    public String getCity() {
+        return city;
+    }
+
+
 }

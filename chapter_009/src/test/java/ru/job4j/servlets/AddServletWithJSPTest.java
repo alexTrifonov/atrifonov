@@ -61,6 +61,8 @@ public class AddServletWithJSPTest {
         String roleName = "user";
         String createDate = "15 01 2018, 20:48:23";
         String password = "password";
+        String country = "Russia";
+        String city = "Yekaterinburg";
 
         when(request.getParameter("name")).thenReturn(name);
         when(request.getParameter("login")).thenReturn(login);
@@ -69,6 +71,8 @@ public class AddServletWithJSPTest {
         when(request.getParameter("createDate")).thenReturn(createDate);
         when(request.getParameter("password")).thenReturn(password);
         when(request.getParameter("confirmPassword")).thenReturn(password);
+        when(request.getParameter("country")).thenReturn(country);
+        when(request.getParameter("city")).thenReturn(city);
 
         addServletWithJSP.doPost(request, response);
 

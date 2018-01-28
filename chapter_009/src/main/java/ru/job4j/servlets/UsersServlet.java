@@ -57,7 +57,7 @@ public class UsersServlet extends HttpServlet {
         String dateString = req.getParameter("createDate");
         LocalDateTime createDate = LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern("dd MM yyyy, HH:mm:ss"));
         String password = req.getParameter("password");
-        User user = new User(name, login, email, roleName, createDate, password);
+        User user = new User(name, login, email, roleName, createDate, password, null, null);
         this.userStore.add(user);
     }
 
@@ -72,7 +72,7 @@ public class UsersServlet extends HttpServlet {
         String dateString = req.getParameter("createDate");
         LocalDateTime createDate = LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern("dd MM yyyy, HH:mm:ss"));
         String password = req.getParameter("password");
-        User user = new User(name, login, email, roleName, createDate, password);
+        User user = new User(name, login, email, roleName, createDate, password, null, null);
         user.setId(id);
         this.userStore.update(user);
     }

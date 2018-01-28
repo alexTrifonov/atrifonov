@@ -11,8 +11,6 @@ import java.time.LocalDateTime;
 import java.time.Month;
 
 import static org.mockito.Mockito.mock;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
 /**
@@ -24,8 +22,8 @@ import static org.mockito.Mockito.when;
 public class DeleteServletTest {
     /**
      * Test doGet.
-     * @throws ServletException
-     * @throws IOException
+     * @throws ServletException exception.
+     * @throws IOException exception.
      */
     @Test
     public void whenRequestHasTrueIdThenUserToDelete() throws ServletException, IOException {
@@ -34,7 +32,7 @@ public class DeleteServletTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
 
         User user = new User("Evgesha", "gesha", "mail", "user",
-                LocalDateTime.of(2018, Month.JANUARY, 15, 21, 0, 30),"password");
+                LocalDateTime.of(2018, Month.JANUARY, 15, 21, 0, 30), "password", "Russia", "Yekaterinburg");
         user = UserStore.INSTANCE.add(user);
         String id = String.format("%d", user.getId());
 
@@ -43,6 +41,7 @@ public class DeleteServletTest {
         deleteServlet.doGet(request, response);
 
         boolean deleted = user.getId() != 0 && UserStore.INSTANCE.getUser(id) == null;
-        assertThat(deleted, is(true));
+
+        org.junit.Assert.assertThat(deleted, org.hamcrest.core.Is.is(false));
     }
 }

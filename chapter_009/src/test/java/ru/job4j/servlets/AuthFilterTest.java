@@ -20,6 +20,11 @@ import static org.mockito.Mockito.when;
  * @since 16.01.2018.
  */
 public class AuthFilterTest {
+    /**
+     * Test.
+     * @throws ServletException exception
+     * @throws IOException exception.
+     */
     @Test(expected = IOException.class)
     public void whenReqHasNotLoginThenRedirect() throws ServletException, IOException {
         AuthFilter authFilter = new AuthFilter();
@@ -41,6 +46,11 @@ public class AuthFilterTest {
         authFilter.doFilter(request, response, filterChain);
     }
 
+    /**
+     * Test.
+     * @throws ServletException exception.
+     * @throws IOException exception.
+     */
     @Test(expected = IOException.class)
     public void whenReqHasLoginThenDoFilter() throws ServletException, IOException {
         AuthFilter authFilter = new AuthFilter();

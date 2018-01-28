@@ -62,7 +62,7 @@ public class EditServlet extends HttpServlet {
         String dateString = req.getParameter("createDate");
         LocalDateTime createDate = LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern("dd MM yyyy, HH:mm:ss"));
         String password = req.getParameter("password");
-        User user = new User(name, login, email, roleName, createDate, password);
+        User user = new User(name, login, email, roleName, createDate, password, null, null);
         Integer id = Integer.parseInt(req.getParameter("id"));
         user.setId(id);
         userStore.update(user);

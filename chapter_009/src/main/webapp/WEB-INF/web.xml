@@ -92,4 +92,13 @@
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CityController</servlet-name>
+        <servlet-class>ru.job4j.servlets.CityController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CityController</servlet-name>
+        <url-pattern>/city</url-pattern>
+    </servlet-mapping>
 </web-app>

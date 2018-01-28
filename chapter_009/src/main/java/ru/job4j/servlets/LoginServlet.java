@@ -18,6 +18,16 @@ public class LoginServlet extends HttpServlet {
      * Instance of RoleStore.
      */
     private final RoleStore roleStore = RoleStore.INSTANCE;
+
+    /**
+     * Instance of CountryStore.
+     */
+    private final CountryStore countryStore = CountryStore.INSTANCE;
+
+    /**
+     * Instance of CityStore.
+     */
+    private final CityStore cityStore = CityStore.INSTANCE;
     /**
      * Instance of UserStore.
      */

@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -60,7 +58,7 @@ public class EditServletWithJSPTest {
         assertThat(UserStore.INSTANCE.getUser(id).getName(), is(name));
 
         User newUser = new User(oldUser.getName(), oldUser.getLogin(), oldUser.getEmail(), oldUser.getRoleName(), oldUser.getCreateDate(),
-                oldUser.getPassword());
+                oldUser.getPassword(), null, null);
         newUser.setId(id);
         UserStore.INSTANCE.update(newUser);
     }
