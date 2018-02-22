@@ -1,0 +1,28 @@
+22 фев 2018 22:16:27 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - Начало абсурда - разговоры с консолью
+22 фев 2018 22:17:16 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - user : привет
+22 фев 2018 22:17:16 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - console : "Бургер-Кинг" вместо "Макдоналдса"
+22 фев 2018 22:17:21 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - user : расскажи чтонибудь
+22 фев 2018 22:17:21 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - console : Да вообще их столько уже, жизней этих...
+22 фев 2018 22:17:38 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - user : это не ответ
+22 фев 2018 22:17:38 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - console : Очень интересный собеседник
+22 фев 2018 22:17:44 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - user : я так не думаю
+22 фев 2018 22:17:44 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - console : Как-нибудь в другой раз
+22 фев 2018 22:17:53 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - user : а что скажешь про выборы
+22 фев 2018 22:17:53 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - console : Ну может быть, я как-то не задумывался
+22 фев 2018 22:18:00 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - user : стоп
+22 фев 2018 22:18:04 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - user : продолжение
+22 фев 2018 22:18:17 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - user : продолжить
+22 фев 2018 22:18:25 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - user : отвечай
+22 фев 2018 22:18:25 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - console : Обсудим это в другой раз
+22 фев 2018 22:18:43 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - user : лучше обсудить сегодня
+22 фев 2018 22:18:43 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - console : На первое время хватит, начну свой рассказ.
+22 фев 2018 22:18:52 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - user : в чем смысл жизни
+22 фев 2018 22:18:52 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - console : 42
+22 фев 2018 22:19:38 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - user : стоп
+22 фев 2018 22:19:44 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - user : пиши есчо
+22 фев 2018 22:19:47 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - user : давай же
+22 фев 2018 22:19:50 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - user : продолжить
+22 фев 2018 22:19:58 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - user : продолжим с чего начали
+22 фев 2018 22:19:58 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - console : Изложи свою версию, а я тебе свою.
+22 фев 2018 22:20:43 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - user : закончить
+22 фев 2018 22:20:43 [main           ] INFO           ru.job4j.simpleIO.ChatConsole - Вот и пообщались.

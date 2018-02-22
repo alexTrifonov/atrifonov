@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="error">
+    <Appenders>
+        <File name="LogChatFile" fileName="chapter_003_IO\src\main\resources\ru\job4j\simpleIO\LogChat.txt">
+            <PatternLayout pattern="%d{dd MMM yyyy HH:mm:ss} [%-15.15t] %-5level %38.38logger{38} - %msg%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="ru.job4j.ch003IO.ChatConsole" level="debug" additivity="false">
+            <AppenderRef ref="LogChatFile"/>
+        </Logger>
+
+        <Root level="all">
+            <AppenderRef ref="LogChatFile" />
+        </Root>
+    </Loggers>
+</Configuration>
