@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="error">
+    <Appenders>
+        <!--<JDBC name="databaseAppender" tableName="LOGGING.APPLICATION_LOG"> -->
+        <!--JDBC name="databaseAppender" tableName="application_log"-->
+        <JDBC name="databaseAppender" tableName="messages">
+            <ConnectionFactory class="ru.job4j.log4j2toDB.ConnectionFactory"
+                               method="getDatabaseConnection" />
+            <!--Column name="EVENT_DATE" isEventTimestamp="true" /-->
+            <!--Column name="LEVEL" pattern="%level" /-->
+            <!--Column name="LOGGER" pattern="%logger" /-->
+            <Column name="MESSAGE" pattern="%message" isUnicode="false" />
+            <!--Column name="THROWABLE" pattern="%ex{full}" /-->
+        </JDBC>
+    </Appenders>
+    <Loggers>
+        <Root level="warn">
+            <AppenderRef ref="databaseAppender" />
+        </Root>
+    </Loggers>
+</Configuration>
