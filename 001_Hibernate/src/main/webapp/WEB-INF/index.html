@@ -2,9 +2,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script>
+        function checkb(data) {
+            var result;
+            if (data) {
+                result = '<input type="checkbox" checked disabled>';
+            } else {
+                result = '<input type="checkbox" disabled>';
+            }
+            return result;
+        }
+        function getData() {
+            $.ajax({
+                type : 'GET',
+                url : './fill',
+                data : {'allTasks' : $('#viewAllCheckbox').prop('checked')},
+                complete : function (data) {
+                    var result = '';
+                    var tasks = JSON.parse(data.responseText);
+                    for (var i = 0; i != tasks.length; i++) {
+                        result += '<tr>' + '<td>' + tasks[i].description + '</td>'
+                                + '<td>' + checkb(tasks[i].done)  + '</td>'
+                                + '</tr>';
+                    }
+                    $('#tableTasks').find('tr:gt(0)').remove();
+                    $('#tableTasks tr:last').after(result);
+                }
+            })
+        }
+
+        $(document).ready(function () {
+            getData();
+            $('#viewAllCheckbox').change(function () {
+                getData();
+            });
+
+        })
+    </script>
 </head>
 <body>
-$END$
+<div>
+    <label for="viewAllCheckbox">View all</label>
+    <input id="viewAllCheckbox" type="checkbox">
+</div>
+
+<form action="./add" method="post">
+    <input type="text" name="description">
+    <button type="submit">Add new task</button>
+</form>
+<table id="tableTasks">
+    <tr>
+        <th>description</th>
+        <th>done</th>
+    </tr>
+</table>
+
 </body>
 </html>

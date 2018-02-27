@@ -1,0 +1,28 @@
+<web-app>
+    <servlet>
+        <servlet-name>Start</servlet-name>
+        <servlet-class>ru.job4j.todolist.Start</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Start</servlet-name>
+        <url-pattern>/start</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddTask</servlet-name>
+        <servlet-class>ru.job4j.todolist.AddTask</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddTask</servlet-name>
+        <url-pattern>/add</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FillTable</servlet-name>
+        <servlet-class>ru.job4j.todolist.FillTable</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FillTable</servlet-name>
+        <url-pattern>/fill</url-pattern>
+    </servlet-mapping>
+</web-app>
