@@ -1,0 +1,8 @@
+<hibernate-mapping>
+    <class name="ru.job4j.carstore.MakeCar" table="make_cars">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="make" column="make"/>
+    </class>
+</hibernate-mapping>

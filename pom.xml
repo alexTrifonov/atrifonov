@@ -23,6 +23,8 @@
 		<module>chapter_008</module>
 		<module>chapter_009</module>
 		<module>chapter_009_task_test</module>
+		<module>001_Hibernate</module>
+		<module>carstore</module>
 	</modules>
 	 
 	<dependencies>
