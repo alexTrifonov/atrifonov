@@ -25,4 +25,9 @@ public class Body {
     public void setBodyType(String bodyType) {
         this.bodyType = bodyType;
     }
+
+    @Override
+    public String toString() {
+        return bodyType;
+    }
 }

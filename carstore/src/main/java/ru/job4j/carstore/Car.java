@@ -15,8 +15,53 @@ public class Car {
     private int running;
     private Transmission transmission;
     private Engine engine;
-    private int cubicCapacity;
+    private double cubicCapacity;
     private Drive drive;
+    private User seller;
+    private Integer cost;
+    private boolean status;
+    private String nameImg;
+
+    public Car() {
+
+    }
+
+    public Car(int id) {
+        this.id = id;
+    }
+
+    public String getNameImg() {
+        return nameImg;
+    }
+
+    public void setNameImg(String nameImg) {
+        this.nameImg = nameImg;
+    }
+
+    public Integer getCost() {
+        return cost;
+    }
+
+    public void setCost(Integer cost) {
+        this.cost = cost;
+    }
+
+    public void setSeller(User seller) {
+        this.seller = seller;
+    }
+
+    public User getSeller() {
+
+        return seller;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -50,7 +95,7 @@ public class Car {
         this.engine = engine;
     }
 
-    public void setCubicCapacity(int cubicCapacity) {
+    public void setCubicCapacity(double cubicCapacity) {
         this.cubicCapacity = cubicCapacity;
     }
 
@@ -90,11 +135,17 @@ public class Car {
         return engine;
     }
 
-    public int getCubicCapacity() {
+    public double getCubicCapacity() {
         return cubicCapacity;
     }
 
     public Drive getDrive() {
         return drive;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s, %s, %s, %s, %.1f, %s, %s, %d, %d, %d", makeCar, autoModel, body, engine, cubicCapacity,
+                drive, transmission, year, running, cost);
     }
 }

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script>
+        function checkSold(data) {
+            var result;
+            if (data[0] === 'true') {
+                result = '<td>' + '<input type="checkbox" checked disabled>' + '</td>';
+            } else {
+                result = '<td>' + '<input type="checkbox" disabled>' + '</td>';
+            }
+            if (data[1] === 'true') {
+                result += '<td>' + '<a href="./edit?idCar=' + data[2] +'">edit</a>' + '</td>';
+            }
+            return result;
+        }
+        function changeCar() {
+            $.ajax({
+                type : 'POST',
+                url : './edit',
+                data : {'sold' : 'test'},
+                complete : function (data) {
+                }
+            });
+        }
+        function getData() {
+            $.ajax({
+                type : 'GET',
+                url : './table',
+                complete : function (data) {
+                    var result = '';
+                    var cars = JSON.parse(data.responseText);
+                    for (var i = 0; i != cars.length; i++) {
+                        result += '<tr>' + '<td>' + '<img src=' + cars[i].nameImg + ' width="100" height="70">'  + '</td>'
+                                + '<td>' + cars[i].carStr + '</td>'
+                                + checkSold([cars[i].sold, cars[i].author, cars[i].idCar])
+                                + '</tr>';
+                    }
+                    $('#tableTasks').find('tr:gt(0)').remove();
+                    $('#tableTasks tr:last').after(result);
+                }
+            })
+        }
+
+        $(document).ready(function () {
+            getData();
+        })
+    </script>
+</head>
+<body>
+    <form action="./login" method="get">
+        <div class="form-group">
+            <input type="hidden" name="exit" value="true"/>
+            <input type="submit" class="btn btn-warning" value="exit"/>
+        </div>
+    </form>
+
+    <br/>
+    <br/>
+    <form action="./add" method="get">
+        <button type="submit">Add new car</button>
+    </form>
+
+
+    <table id="tableTasks" name="carTable">
+        <tr>
+            <th></th>
+            <th></th>
+            <th>sold</th>
+            <th></th>
+        </tr>
+    </table>
+</body>
+</html>

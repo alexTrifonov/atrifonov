@@ -19,7 +19,7 @@
 
         <many-to-one name="transmission"
                      column="transmission_id"
-                     class="ru.job4j.carstore.AutoModel"/>
+                     class="ru.job4j.carstore.Transmission"/>
         <many-to-one name="engine"
                      column="engine_id"
                      class="ru.job4j.carstore.Engine"/>
@@ -29,5 +29,11 @@
         <many-to-one name="drive"
                      column="drive_id"
                      class="ru.job4j.carstore.Drive"/>
+        <many-to-one name="seller"
+                     column="seller_id"
+                     class="ru.job4j.carstore.User"/>
+        <property name="status" column="status"/>
+        <property name="cost" column="cost"/>
+        <property name="nameImg" column="name_img"/>
     </class>
 </hibernate-mapping>

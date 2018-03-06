@@ -25,4 +25,9 @@ public class Drive {
     public void setDriveType(String driveType) {
         this.driveType = driveType;
     }
+
+    @Override
+    public String toString() {
+        return driveType;
+    }
 }

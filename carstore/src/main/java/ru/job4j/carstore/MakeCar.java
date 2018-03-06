@@ -10,6 +10,14 @@ public class MakeCar {
     private int id;
     private String make;
 
+    public MakeCar(){
+
+    }
+
+    public MakeCar(String make) {
+        this.make = make;
+    }
+
     public int getId() {
         return id;
     }
@@ -24,5 +32,10 @@ public class MakeCar {
 
     public void setMake(String make) {
         this.make = make;
+    }
+
+    @Override
+    public String toString() {
+        return make;
     }
 }

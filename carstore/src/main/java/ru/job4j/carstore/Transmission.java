@@ -26,4 +26,9 @@ public class Transmission {
     public String getTransmType() {
         return transmType;
     }
+
+    @Override
+    public String toString() {
+        return transmType;
+    }
 }

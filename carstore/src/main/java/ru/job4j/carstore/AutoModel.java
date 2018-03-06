@@ -11,6 +11,15 @@ public class AutoModel {
     private String model;
     private MakeCar makeCar;
 
+    public AutoModel() {
+
+    }
+
+    public AutoModel(String model, MakeCar makeCar) {
+        this.model = model;
+        this.makeCar = makeCar;
+    }
+
     public int getId() {
         return id;
     }
@@ -33,5 +42,10 @@ public class AutoModel {
 
     public void setMakeCar(MakeCar makeCar) {
         this.makeCar = makeCar;
+    }
+
+    @Override
+    public String toString() {
+        return model;
     }
 }
