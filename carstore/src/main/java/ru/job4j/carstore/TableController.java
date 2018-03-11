@@ -5,16 +5,14 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Fill table on start page.
@@ -23,6 +21,8 @@ import java.util.Map;
  * @since 06.03.2018.
  */
 public class TableController extends HttpServlet {
+    private String MAKE = "Make";
+    private String BODY = "Body";
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");
@@ -30,13 +30,34 @@ public class TableController extends HttpServlet {
         SessionFactory factory = new Configuration().configure().buildSessionFactory();
         Session session = factory.openSession();
         session.beginTransaction();
-        List<Car> list = session.createQuery("from Car").list();
+
+        String bodyStr = req.getParameter("body");
+        String makeCarStr = req.getParameter("makeCar");
+        Boolean withPhoto = Boolean.parseBoolean(req.getParameter("viewPhoto"));
+        List<Car> list = new LinkedList<>();
+        if (MAKE.equals(makeCarStr) && BODY.equals(bodyStr)) {
+            list = CarStore.INSTANSE.getCars(withPhoto);
+        }
+        if (!MAKE.equals(makeCarStr) && BODY.equals(bodyStr)) {
+            MakeCar makeCar = MakeStore.INSTANCE.getMakeCar(makeCarStr);
+            list = CarStore.INSTANSE.getCars(withPhoto, makeCar);
+        }
+        if (MAKE.equals(makeCarStr) && !BODY.equals(bodyStr)) {
+            Body body = BodyStore.INSTANCE.getBody(bodyStr);
+            list = CarStore.INSTANSE.getCars(withPhoto, body);
+        }
+        if (!MAKE.equals(makeCarStr) && !BODY.equals(bodyStr)) {
+            MakeCar makeCar = MakeStore.INSTANCE.getMakeCar(makeCarStr);
+            Body body = BodyStore.INSTANCE.getBody(bodyStr);
+            list = CarStore.INSTANSE.getCars(withPhoto, makeCar, body);
+        }
+
         ObjectMapper mapper = new ObjectMapper();
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         if (list.size() > 0) {
             Iterator<Car> iterator = list.iterator();
-            Car car = iterator.next();;
+            Car car = iterator.next();
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             mapper.writeValue(out, getMap(car, req));
             while (iterator.hasNext()) {

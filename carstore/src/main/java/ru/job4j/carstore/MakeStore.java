@@ -1,5 +1,10 @@
 package ru.job4j.carstore;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +20,25 @@ import java.util.List;
  */
 public enum MakeStore {
     INSTANCE;
+    private final SessionFactory factory = new Configuration().configure().buildSessionFactory();
+
+
+    public MakeCar getMakeCar(String make) {
+        MakeCar makeCar = null;
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("from MakeCar where make =:make");
+            query.setParameter("make", make);
+            List<MakeCar> makeCars = query.list();
+            if (makeCars.size() > 0) {
+                makeCar = makeCars.iterator().next();
+            }
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return makeCar;
+    }
 
     public List<MakeCar> getMakes(){
         List<MakeCar> list = new LinkedList<>();

@@ -16,6 +16,15 @@
             }
             return result;
         }
+        function renderImage(data) {
+            var result;
+            if (data != '') {
+                result = '<td>' + '<img src=' + data + ' width="100" height="70"></td>';
+            } else {
+                result = '<td></td>';
+            }
+            return result;
+        }
         function changeCar() {
             $.ajax({
                 type : 'POST',
@@ -25,15 +34,16 @@
                 }
             });
         }
-        function getData() {
+        function getData(reqData) {
             $.ajax({
                 type : 'GET',
                 url : './table',
+                data : reqData,
                 complete : function (data) {
                     var result = '';
                     var cars = JSON.parse(data.responseText);
                     for (var i = 0; i != cars.length; i++) {
-                        result += '<tr>' + '<td>' + '<img src=' + cars[i].nameImg + ' width="100" height="70">'  + '</td>'
+                        result += '<tr>' + renderImage(cars[i].nameImg)
                                 + '<td>' + cars[i].carStr + '</td>'
                                 + checkSold([cars[i].sold, cars[i].author, cars[i].idCar])
                                 + '</tr>';
@@ -43,9 +53,50 @@
                 }
             })
         }
+        function getDataMake() {
+            $.ajax({
+                type : 'GET',
+                url : './make',
+                complete : function (data) {
+                    var result = '';
+                    var makes = JSON.parse(data.responseText);
+                    for(var i = 0; i != makes.length; i++) {
+                        result += '<option>' + makes[i].make + '</option>';
+                    }
+                    $('#selectMake').append(result);
+                }
+            });
+        }
+        function getDataBody() {
+            $.ajax({
+                type : 'GET',
+                url : './body',
+                complete : function (data) {
+                    var result = '';
+                    var bodies = JSON.parse(data.responseText);
+                    for(var i = 0; i != bodies.length; i++) {
+                        result += '<option>' + bodies[i].bodyType + '</option>';
+                    }
+                    $('#selectBody').append(result);
+                }
+            });
+        }
 
         $(document).ready(function () {
-            getData();
+            getData({
+                'viewPhoto': 'false',
+                'makeCar' : 'Make',
+                'body' : 'Body'
+            });
+            getDataMake();
+            getDataBody();
+            $('#Search').on('click', function () {
+                getData({
+                    'viewPhoto': $('#viewPhoto').prop('checked'),
+                    'makeCar' : $('#selectMake option:selected').text(),
+                    'body' : $('#selectBody option:selected').text()
+                });
+            })
         })
     </script>
 </head>
@@ -56,13 +107,29 @@
             <input type="submit" class="btn btn-warning" value="exit"/>
         </div>
     </form>
-
     <br/>
     <br/>
     <form action="./add" method="get">
         <button type="submit">Add new car</button>
     </form>
 
+    <br/>
+    <br/>
+    <div>
+        <label for="viewPhoto">withPhoto</label>
+        <input type="checkbox" name="withPhoto" id="viewPhoto" value="withPhoto">
+        <label for="selectMake">Make of car</label>
+        <select size="1" id="selectMake" name="makeCar">
+            <option>Make</option>
+        </select>
+        <label for="selectBody">Body</label>
+        <select size="1" id="selectBody" name="body">
+            <option>Body</option>
+        </select>
+        <button type="submit" id="Search">Search</button>
+    </div>
+    <br/>
+    <br/>
 
     <table id="tableTasks" name="carTable">
         <tr>

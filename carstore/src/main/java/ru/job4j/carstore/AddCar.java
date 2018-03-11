@@ -93,6 +93,8 @@ public class AddCar extends HttpServlet {
                 if (fileName != null && fileName.length() > 0) {
                     String filePath = fullSavePath + File.separator + fileName;
                     part.write(filePath);
+                } else {
+                    fileName = "";
                 }
             }
 
@@ -114,7 +116,12 @@ public class AddCar extends HttpServlet {
         car.setStatus(false);
         car.setCost(Integer.parseInt(req.getParameter("cost")));
         car.setSeller(user);
-        car.setNameImg("./uploadDir/" + fileName);
+        if (!fileName.isEmpty()) {
+            car.setNameImg("./uploadDir/" + fileName);
+        } else {
+            car.setNameImg("");
+        }
+
 
         session.save(car);
         session.getTransaction().commit();
