@@ -31,4 +31,23 @@ public class Transmission {
     public String toString() {
         return transmType;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Transmission that = (Transmission) o;
+
+        if (id != that.id) return false;
+        return transmType != null ? transmType.equals(that.transmType) : that.transmType == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (transmType != null ? transmType.hashCode() : 0);
+        return result;
+    }
 }

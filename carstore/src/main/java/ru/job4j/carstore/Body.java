@@ -30,4 +30,23 @@ public class Body {
     public String toString() {
         return bodyType;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Body body = (Body) o;
+
+        if (id != body.id) return false;
+        return bodyType != null ? bodyType.equals(body.bodyType) : body.bodyType == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (bodyType != null ? bodyType.hashCode() : 0);
+        return result;
+    }
 }

@@ -34,4 +34,15 @@ public enum BodyStore {
         }
         return body;
     }
+
+    public Body add(Body body) {
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            session.save(body);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return body;
+    }
 }

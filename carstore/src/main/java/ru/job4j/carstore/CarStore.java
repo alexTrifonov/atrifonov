@@ -17,6 +17,18 @@ import java.util.List;
 public enum  CarStore {
     INSTANSE;
     private final SessionFactory factory = new Configuration().configure().buildSessionFactory();
+
+    public Car add(Car car) {
+        try(Session session = factory.openSession()) {
+            session.beginTransaction();
+            session.save(car);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return car;
+    }
+
     public List<Car> getCars(boolean withPhoto, MakeCar makeCar, Body body) {
         List<Car> list = new LinkedList<>();
         try (Session session = factory.openSession();) {

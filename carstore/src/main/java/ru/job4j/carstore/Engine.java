@@ -30,4 +30,23 @@ public class Engine {
     public String toString() {
         return engineType;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Engine engine = (Engine) o;
+
+        if (id != engine.id) return false;
+        return engineType != null ? engineType.equals(engine.engineType) : engine.engineType == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (engineType != null ? engineType.hashCode() : 0);
+        return result;
+    }
 }

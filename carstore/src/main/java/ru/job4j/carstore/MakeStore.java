@@ -22,6 +22,16 @@ public enum MakeStore {
     INSTANCE;
     private final SessionFactory factory = new Configuration().configure().buildSessionFactory();
 
+    public MakeCar add(MakeCar makeCar) {
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            session.save(makeCar);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return makeCar;
+    }
 
     public MakeCar getMakeCar(String make) {
         MakeCar makeCar = null;
@@ -40,37 +50,16 @@ public enum MakeStore {
         return makeCar;
     }
 
-    public List<MakeCar> getMakes(){
-        List<MakeCar> list = new LinkedList<>();
-        try (Connection conn = ConnectionFactory.getDatabaseConnection();
-             PreparedStatement selectAllMakes = conn.prepareStatement("SELECT * FROM make_cars")) {
-            ResultSet setMakes = selectAllMakes.executeQuery();
-            while (setMakes.next()) {
-                int id = setMakes.getInt(1);
-                String make = setMakes.getString("make");
-                MakeCar makeCar = new MakeCar(make);
-                makeCar.setId(id);
-                list.add(makeCar);
-            }
-        } catch (SQLException e) {
+    public List<MakeCar> getMakes() {
+        List<MakeCar> makeCarList = new LinkedList<>();
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("from MakeCar");
+            makeCarList = query.list();
+            session.getTransaction().commit();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return list;
-    }
-
-    public MakeCar getMake(String makeCar) {
-        MakeCar make = null;
-        try (Connection conn = ConnectionFactory.getDatabaseConnection();
-             PreparedStatement selectMake = conn.prepareStatement("SELECT * FROM make_cars WHERE make = ?")) {
-            selectMake.setString(1, makeCar);
-            ResultSet resultSet = selectMake.executeQuery();
-            if (resultSet.next()) {
-                make = new MakeCar(makeCar);
-                make.setId(resultSet.getInt("id"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return make;
+        return makeCarList;
     }
 }

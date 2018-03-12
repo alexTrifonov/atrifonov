@@ -7,6 +7,6 @@
 
         <many-to-one name="makeCar"
                      column="make_id"
-                     class="ru.job4j.carstore.MakeCar"/>
+                     class="ru.job4j.carstore.MakeCar" fetch="join"/>
     </class>
 </hibernate-mapping>

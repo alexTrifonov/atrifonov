@@ -48,4 +48,25 @@ public class AutoModel {
     public String toString() {
         return model;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AutoModel autoModel = (AutoModel) o;
+
+        if (id != autoModel.id) return false;
+        if (model != null ? !model.equals(autoModel.model) : autoModel.model != null) return false;
+        return makeCar != null ? makeCar.equals(autoModel.makeCar) : autoModel.makeCar == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (model != null ? model.hashCode() : 0);
+        result = 31 * result + (makeCar != null ? makeCar.hashCode() : 0);
+        return result;
+    }
 }

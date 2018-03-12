@@ -1,10 +1,16 @@
 package ru.job4j.carstore;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -18,12 +24,23 @@ public enum UserStore {
      * Instance of UserStore.
      */
     INSTANCE;
-
+    private final SessionFactory factory = new Configuration().configure().buildSessionFactory();
 
     /**
      * Construct UserStore.
      */
     UserStore() {
+    }
+
+    public User add(User user) {
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            session.save(user);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
     /**
@@ -33,15 +50,14 @@ public enum UserStore {
      */
     public User getUser(String login) {
         User user = null;
-        try (Connection conn = ConnectionFactory.getDatabaseConnection();
-             PreparedStatement getUserFromDB = conn.prepareStatement("SELECT * FROM sellers WHERE login = ?")) {
-
-            getUserFromDB.setString(1, login);
-            ResultSet resultSet = getUserFromDB.executeQuery();
-            if (resultSet.next()) {
-                user = new User(resultSet.getInt("id"), resultSet.getString("login"), resultSet.getString("password"));
-            }
-        } catch (SQLException e) {
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("from User as u where u.login =:login");
+            query.setParameter("login", login);
+            List<User> list = query.list();
+            user = list.iterator().next();
+            session.getTransaction().commit();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return user;
@@ -55,16 +71,16 @@ public enum UserStore {
      */
     public boolean isCredential(String login, String password) {
         boolean exists = false;
-        try (Connection conn = ConnectionFactory.getDatabaseConnection();
-             PreparedStatement prepStm = conn.prepareStatement("SELECT * FROM sellers WHERE login = ? AND password = ?;")) {
-            prepStm.setString(1, login);
-            prepStm.setString(2, password);
-            ResultSet resultSet = prepStm.executeQuery();
-            if (resultSet.next()) {
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("from User as u where u.login =:login AND u.password =:password");
+            query.setParameter("login", login);
+            query.setParameter("password", password);
+            List<User> list = query.list();
+            if (list.size() > 0) {
                 exists = true;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            session.getTransaction().commit();
         }
         return exists;
     }

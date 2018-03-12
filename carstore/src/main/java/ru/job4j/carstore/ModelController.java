@@ -32,7 +32,7 @@ public class ModelController extends HttpServlet {
             List<MakeCar> list = MakeStore.INSTANCE.getMakes();
             makeCar = list.iterator().next();
         } else {
-            makeCar = MakeStore.INSTANCE.getMake(makeCarStr);
+            makeCar = MakeStore.INSTANCE.getMakeCar(makeCarStr);
         }
         List<AutoModel> autoModels = ModelStore.INSTANCE.getModels(makeCar);
 
