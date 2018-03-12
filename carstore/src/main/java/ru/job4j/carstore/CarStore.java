@@ -23,12 +23,14 @@ public enum  CarStore {
             session.beginTransaction();
             Query query;
             if (withPhoto) {
-                query = session.createQuery("from Car where nameImg !='' AND make_car_id =:makeCarId AND body_id =:bodyId");
+                query = session.createQuery("from Car as c join fetch c.makeCar join fetch c.autoModel join fetch c.body " +
+                        "join fetch c.transmission join fetch c.engine join fetch c.drive join fetch c.seller where c.nameImg !='' AND c.makeCar =:makeCar AND c.body =:body");
             } else {
-                query = session.createQuery("from Car where make_car_id =:makeCarId AND body_id =:bodyId");
+                query = session.createQuery("from Car as c join fetch c.makeCar join fetch c.autoModel join fetch c.body " +
+                        "join fetch c.transmission join fetch c.engine join fetch c.drive join fetch c.seller where c.makeCar =:makeCar AND c.body =:body");
             }
-            query.setParameter("makeCarId", makeCar.getId());
-            query.setParameter("bodyId", body.getId());
+            query.setParameter("makeCar", makeCar);
+            query.setParameter("body", body);
             list.addAll(query.list());
             session.getTransaction().commit();
         } catch (Exception e) {
@@ -44,11 +46,13 @@ public enum  CarStore {
             session.beginTransaction();
             Query query;
             if (withPhoto) {
-                query = session.createQuery("from Car where nameImg !='' AND make_car_id =:makeCarId");
+                query = session.createQuery("from Car as c join fetch c.makeCar join fetch c.autoModel join fetch c.body " +
+                        "join fetch c.transmission join fetch c.engine join fetch c.drive join fetch c.seller where c.nameImg !='' AND c.makeCar =:makeCar");
             } else {
-                query = session.createQuery("from Car where make_car_id =:makeCarId");
+                query = session.createQuery("from Car as c join fetch c.makeCar join fetch c.autoModel join fetch c.body " +
+                        "join fetch c.transmission join fetch c.engine join fetch c.drive join fetch c.seller where c.makeCar =:makeCar");
             }
-            query.setParameter("makeCarId", makeCar.getId());
+            query.setParameter("makeCar", makeCar);
             list.addAll(query.list());
             session.getTransaction().commit();
         } catch (Exception e) {
@@ -63,11 +67,13 @@ public enum  CarStore {
             session.beginTransaction();
             Query query;
             if (withPhoto) {
-                query = session.createQuery("from Car where nameImg !='' AND body_id=:bodyId");
+                query = session.createQuery("from Car as c join fetch c.makeCar join fetch c.autoModel join fetch c.body " +
+                        "join fetch c.transmission join fetch c.engine join fetch c.drive join fetch c.seller where c.nameImg !='' AND c.body=:body");
             } else {
-                query = session.createQuery("from Car where body_id=:bodyId");
+                query = session.createQuery("from Car as c join fetch c.makeCar join fetch c.autoModel join fetch c.body " +
+                        "join fetch c.transmission join fetch c.engine join fetch c.drive join fetch c.seller where c.body=:body");
             }
-            query.setParameter("bodyId", body.getId());
+            query.setParameter("body", body);
             list.addAll(query.list());
             session.getTransaction().commit();
             session.close();
@@ -83,9 +89,11 @@ public enum  CarStore {
             session.beginTransaction();
             Query query;
             if (withPhoto) {
-                query = session.createQuery("from Car where nameImg !=''");
+                query = session.createQuery("from Car as c join fetch c.makeCar join fetch c.autoModel join fetch c.body " +
+                        "join fetch c.transmission join fetch c.engine join fetch c.drive join fetch c.seller where c.nameImg !=''");
             } else {
-                query = session.createQuery("from Car");
+                query = session.createQuery("from Car as c join fetch c.makeCar join fetch c.autoModel join fetch c.body " +
+                        "join fetch c.transmission join fetch c.engine join fetch c.drive join fetch c.seller");
             }
             list.addAll(query.list());
             session.getTransaction().commit();

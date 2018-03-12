@@ -6,32 +6,32 @@
 
         <many-to-one name="makeCar"
                      column="make_car_id"
-                     class="ru.job4j.carstore.MakeCar"/>
+                     class="ru.job4j.carstore.MakeCar" fetch="join"/>
         <many-to-one name="autoModel"
                      column="model_id"
-                     class="ru.job4j.carstore.AutoModel"/>
+                     class="ru.job4j.carstore.AutoModel" fetch="join"/>
         <many-to-one name="body"
                      column="body_id"
-                     class="ru.job4j.carstore.Body"/>
+                     class="ru.job4j.carstore.Body" fetch="join"/>
 
         <property name="year" column="year"/>
         <property name="running" column="running"/>
 
         <many-to-one name="transmission"
                      column="transmission_id"
-                     class="ru.job4j.carstore.Transmission"/>
+                     class="ru.job4j.carstore.Transmission" fetch="join"/>
         <many-to-one name="engine"
                      column="engine_id"
-                     class="ru.job4j.carstore.Engine"/>
+                     class="ru.job4j.carstore.Engine" fetch="join"/>
 
         <property name="cubicCapacity" column="capacity"/>
 
         <many-to-one name="drive"
                      column="drive_id"
-                     class="ru.job4j.carstore.Drive"/>
+                     class="ru.job4j.carstore.Drive" fetch="join"/>
         <many-to-one name="seller"
                      column="seller_id"
-                     class="ru.job4j.carstore.User"/>
+                     class="ru.job4j.carstore.User" fetch="join"/>
         <property name="status" column="status"/>
         <property name="cost" column="cost"/>
         <property name="nameImg" column="name_img"/>
