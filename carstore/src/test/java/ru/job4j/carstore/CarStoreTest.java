@@ -87,8 +87,8 @@ public class CarStoreTest {
 
         List<Car> cars = carStore.getCars(false, makeCar, body);
         List<Car> carsWithImage = carStore.getCars(true, makeCar, bodyTwo);
-        boolean result = carList.equals(cars) && carListOnlyImage.equals(carsWithImage);
 
-        assertThat(result, is(true));
+        assertThat(carList.equals(cars), is(true));
+        assertThat(carListOnlyImage.equals(carsWithImage), is(true));
     }
 }
