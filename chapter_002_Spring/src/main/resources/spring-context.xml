@@ -12,6 +12,18 @@
         <constructor-arg name="country" ref="country"></constructor-arg>
     </bean>
 
+    <bean id="jdbcstore" class="ru.job4j.SpringStore.JdbcStore">
+        <constructor-arg value="jdbc:postgresql://localhost:5432/first_base"/>
+        <constructor-arg value="postgres"/>
+        <constructor-arg value="password"/>
+    </bean>
+    <bean id="store" class="ru.job4j.SpringStore.UserStorage">
+        <constructor-arg ref="jdbcstore"/>
+    </bean>
+
+    <bean id="memorystore" class="ru.job4j.SpringStore.MemoryStore"/>
+
+
     <context:component-scan base-package="ru.job4j.BeanExample"/>
 
 </beans>
