@@ -1,0 +1,39 @@
+<hibernate-mapping>
+    <class name="ru.job4j.carstorespring.models.Car" table="cars">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+
+        <many-to-one name="makeCar"
+                     column="make_car_id"
+                     class="ru.job4j.carstorespring.models.MakeCar" fetch="join"/>
+        <many-to-one name="autoModel"
+                     column="model_id"
+                     class="ru.job4j.carstorespring.models.AutoModel" fetch="join"/>
+        <many-to-one name="body"
+                     column="body_id"
+                     class="ru.job4j.carstorespring.models.Body" fetch="join"/>
+
+        <property name="year" column="year"/>
+        <property name="running" column="running"/>
+
+        <many-to-one name="transmission"
+                     column="transmission_id"
+                     class="ru.job4j.carstorespring.models.Transmission" fetch="join"/>
+        <many-to-one name="engine"
+                     column="engine_id"
+                     class="ru.job4j.carstorespring.models.Engine" fetch="join"/>
+
+        <property name="cubicCapacity" column="capacity"/>
+
+        <many-to-one name="drive"
+                     column="drive_id"
+                     class="ru.job4j.carstorespring.models.Drive" fetch="join"/>
+        <many-to-one name="seller"
+                     column="seller_id"
+                     class="ru.job4j.carstorespring.models.User" fetch="join"/>
+        <property name="status" column="status"/>
+        <property name="cost" column="cost"/>
+        <property name="nameImg" column="name_img"/>
+    </class>
+</hibernate-mapping>
