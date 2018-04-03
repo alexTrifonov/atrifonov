@@ -1,14 +1,30 @@
 package ru.job4j.carstorespring.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Proxy;
+
+import javax.persistence.*;
+
 /**
  * Model for automobile model.
  * @author atrifonov.
  * @version 1.
  * @since 28.02.2018.
  */
+@Entity
+@Table(name = "auto_models")
+@JsonIgnoreProperties(ignoreUnknown = false)
+@Proxy(lazy = false)
 public class AutoModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String model;
+
+    //@JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "make_id")
     private MakeCar makeCar;
 
     public AutoModel() {

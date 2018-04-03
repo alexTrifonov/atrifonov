@@ -1,12 +1,18 @@
 package ru.job4j.carstorespring.models;
 
+import javax.persistence.*;
+
 /**
  * Model for make of car.
  * @author atrifonov.
  * @version 1.
  * @since 28.02.2018.
  */
+@Entity
+@Table(name = "make_cars")
 public class MakeCar {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String make;
 

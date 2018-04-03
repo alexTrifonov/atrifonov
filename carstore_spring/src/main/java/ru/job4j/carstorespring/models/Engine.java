@@ -1,12 +1,18 @@
 package ru.job4j.carstorespring.models;
 
+import javax.persistence.*;
+
 /**
  * Model for engine of car.
  * @author atrifonov.
  * @version 1.
  * @since 28.02.2018.
  */
+@Entity
+@Table(name = "engines")
 public class Engine {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String engineType;
 

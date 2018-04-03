@@ -20,8 +20,8 @@ import java.util.List;
  */
 @Controller
 public class TableController{
-    private String MAKE = "Make";
-    private String BODY = "Body";
+    private final String MAKE = "Make";
+    private final String BODY = "Body";
     @RequestMapping(value = "/table", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public List<Car> getCars(@RequestParam(name = "makeCar") String makeCar, @RequestParam(name = "body") String body,
