@@ -2,6 +2,9 @@ package ru.job4j.carstorespring.models;
 
 import org.springframework.stereotype.Component;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 /**
  * Model of car.
  * @author atrifonov.
@@ -11,15 +14,29 @@ import org.springframework.stereotype.Component;
 @Component
 public class Car {
     private int id;
+    @ManyToOne()
+    @JoinColumn(name = "make_car_id")
     private MakeCar makeCar;
+    @ManyToOne()
+    @JoinColumn(name = "model_id")
     private AutoModel autoModel;
+    @ManyToOne()
+    @JoinColumn(name = "body_id")
     private Body body;
     private int year;
     private int running;
+    @ManyToOne()
+    @JoinColumn(name = "transmission_id")
     private Transmission transmission;
+    @ManyToOne()
+    @JoinColumn(name = "engine_id")
     private Engine engine;
     private double cubicCapacity;
+    @ManyToOne()
+    @JoinColumn(name = "drive_id")
     private Drive drive;
+    @ManyToOne()
+    @JoinColumn(name = "seller_id")
     private User seller;
     private Integer cost;
     private boolean status;

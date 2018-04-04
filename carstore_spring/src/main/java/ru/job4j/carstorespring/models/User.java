@@ -1,12 +1,21 @@
 package ru.job4j.carstorespring.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
+
 /**
  * User of car market.
  * @author atrifonov.
  * @version 1.
  * @since 01.03.2018.
  */
+@Entity
+@Table(name = "sellers")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String login;
     private String password;

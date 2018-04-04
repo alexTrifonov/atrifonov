@@ -1,8 +1,6 @@
 package ru.job4j.carstorespring.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 
@@ -14,16 +12,14 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "auto_models")
-@JsonIgnoreProperties(ignoreUnknown = false)
-@Proxy(lazy = false)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AutoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String model;
 
-    //@JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne()
     @JoinColumn(name = "make_id")
     private MakeCar makeCar;
 

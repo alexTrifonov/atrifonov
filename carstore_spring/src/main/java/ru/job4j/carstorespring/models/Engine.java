@@ -1,5 +1,7 @@
 package ru.job4j.carstorespring.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 /**
@@ -10,6 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "engines")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Engine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -14,4 +14,5 @@ import java.util.List;
  */
 public interface ModelRepository extends CrudRepository<AutoModel, Integer> {
     List<AutoModel> findByMakeCar(MakeCar makeCar);
+    List<AutoModel> findByModel(String model);
 }

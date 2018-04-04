@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.job4j.carstorespring.crudRepositories.DriveRepository;
 import ru.job4j.carstorespring.models.Drive;
-import ru.job4j.carstorespring.stores.DriveStore;
 
 import java.util.List;
 
@@ -24,7 +23,6 @@ public class DriveController {
     @RequestMapping(value = "/drive", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public List<Drive> getBodies() {
-        //return DriveStore.INSTANCE.getDrives();
         return (List<Drive>) driveRepository.findAll();
     }
 }

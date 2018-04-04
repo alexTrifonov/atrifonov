@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.job4j.carstorespring.crudRepositories.MakeRepository;
 import ru.job4j.carstorespring.crudRepositories.ModelRepository;
-import ru.job4j.carstorespring.stores.*;
 import ru.job4j.carstorespring.models.*;
 
 import java.util.List;
@@ -22,32 +21,19 @@ import java.util.List;
 @Controller
 public class ModelController {
     @Autowired
-    MakeRepository makeRepository;
+    private MakeRepository makeRepository;
     @Autowired
-    ModelRepository modelRepository;
+    private ModelRepository modelRepository;
 
     @RequestMapping(value = "/model", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public List<AutoModel> getBodies(@RequestParam(name = "makeSelect") String makeSelect) {
+    public List<AutoModel> getModels(@RequestParam(name = "makeSelect") String makeSelect) {
         String make = makeSelect != null ? makeSelect : "";
         MakeCar makeCar;
         if (make.isEmpty()) {
-            //List<MakeCar> list = MakeStore.INSTANCE.getMakes();
-            //makeCar = list.iterator().next();
             makeCar = makeRepository.findAll().iterator().next();
-
         } else {
-            //makeCar = MakeStore.INSTANCE.getMakeCar(makeSelect);
             makeCar = makeRepository.findByMake(makeSelect).iterator().next();
-        }
-        //return ModelStore.INSTANCE.getModels(makeCar);
-        System.out.println(String.format("makeCar.getMake() = %s", makeCar.getMake()));
-        List<AutoModel> list = modelRepository.findByMakeCar(makeCar);
-        System.out.println(String.format("modelRepository.findByMakeCar(makeCar) = %s", list));
-        System.out.println("Print list models");
-        System.out.println(list.getClass());
-        for(AutoModel model : list) {
-            System.out.println(String.format("id = %d, model = %s, make = %s", model.getId(), model.getModel(), model.getMakeCar()));
         }
         return modelRepository.findByMakeCar(makeCar);
     }

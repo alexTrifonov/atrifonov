@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.job4j.carstorespring.crudRepositories.MakeRepository;
 import ru.job4j.carstorespring.models.MakeCar;
-import ru.job4j.carstorespring.stores.MakeStore;
 
 /**
  * Fill select make.
@@ -25,7 +24,6 @@ public class MakeCarController {
     @RequestMapping(value = "/make", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public List<MakeCar> getBodies() {
-        //return MakeStore.INSTANCE.getMakes();
         return (List<MakeCar>) makeRepository.findAll();
     }
 }

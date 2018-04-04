@@ -82,7 +82,6 @@
                 data : reqData,
                 complete : function (data) {
                     var result = '';
-                    console.log(data.responseText);
                     var models = JSON.parse(data.responseText);
                     for(var i = 0; i != models.length; i++) {
                         result += '<option>' + models[i].model + '</option>';

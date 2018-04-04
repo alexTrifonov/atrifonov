@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.job4j.carstorespring.crudRepositories.EngineRepository;
-import ru.job4j.carstorespring.crudRepositories.MakeRepository;
 import ru.job4j.carstorespring.models.Engine;
-import ru.job4j.carstorespring.stores.EngineStore;
 
 /**
  * Fill select engine.
@@ -26,7 +24,6 @@ public class EngineController {
     @RequestMapping(value = "/engine", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public List<Engine> getEngines() {
-        //return EngineStore.INSTANCE.getEngines();
         return (List<Engine>) engineRepository.findAll();
     }
 }

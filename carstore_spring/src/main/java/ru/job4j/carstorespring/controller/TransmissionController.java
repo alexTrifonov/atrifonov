@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.job4j.carstorespring.crudRepositories.TransmissionRepository;
 import ru.job4j.carstorespring.models.Transmission;
-import ru.job4j.carstorespring.stores.TransmissionStore;
 
 import java.util.List;
 
@@ -25,7 +24,6 @@ public class TransmissionController {
     @RequestMapping(value = "/transmission", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public List<Transmission> getBodies() {
-        //return TransmissionStore.INSTANCE.getTransmissions();
         return (List<Transmission>) transmissionRepository.findAll();
     }
     

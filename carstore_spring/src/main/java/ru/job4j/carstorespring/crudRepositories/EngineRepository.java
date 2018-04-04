@@ -3,6 +3,8 @@ package ru.job4j.carstorespring.crudRepositories;
 import org.springframework.data.repository.CrudRepository;
 import ru.job4j.carstorespring.models.Engine;
 
+import java.util.List;
+
 /**
  * Repository for Engine.
  * @author atrifonov.
@@ -10,4 +12,5 @@ import ru.job4j.carstorespring.models.Engine;
  * @since 02.04.2018.
  */
 public interface EngineRepository extends CrudRepository<Engine, Integer> {
+    List<Engine> findByEngineType(String engineType);
 }

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import ru.job4j.carstorespring.crudRepositories.*;
 import ru.job4j.carstorespring.models.*;
-import ru.job4j.carstorespring.stores.*;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -31,6 +31,22 @@ public class AddCar {
     public static final String SAVE_DIRECTORY = "resources/uploadDir";
     @Autowired
     private ServletContext context;
+    @Autowired
+    private CarRepository carRepository;
+    @Autowired
+    private BodyRepository bodyRepository;
+    @Autowired
+    private DriveRepository driveRepository;
+    @Autowired
+    private EngineRepository engineRepository;
+    @Autowired
+    private MakeRepository makeRepository;
+    @Autowired
+    private ModelRepository modelRepository;
+    @Autowired
+    private TransmissionRepository transmissionRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @RequestMapping(value = "/addCar", method = RequestMethod.GET)
     public String getPageAddCar(ModelMap modelMap) {
@@ -45,13 +61,13 @@ public class AddCar {
                          @RequestParam(name = "running") Integer running, @RequestParam(name = "cost") Integer cost,
                          @RequestParam(name = "file")MultipartFile file) {
 
-        MakeCar make = MakeStore.INSTANCE.getMakeCar(makeCar);
-        AutoModel autoModel = ModelStore.INSTANCE.get(model);
-        Body carBody = BodyStore.INSTANCE.get(body);
-        Transmission transm = TransmissionStore.INSTANCE.get(transmission);
-        Engine carEngine = EngineStore.INSTANCE.get(engine);
-        Drive carDrive = DriveStore.INSTANCE.get(drive);
-        User user = UserStore.INSTANCE.getUser("igor");
+        MakeCar make = makeRepository.findByMake(makeCar).iterator().next();
+        AutoModel autoModel = modelRepository.findByModel(model).iterator().next();
+        Body carBody = bodyRepository.findByBodyType(body).iterator().next();
+        Transmission transm = transmissionRepository.findByTransmType(transmission).iterator().next();
+        Engine carEngine = engineRepository.findByEngineType(engine).iterator().next();
+        Drive carDrive = driveRepository.findByDriveType(drive).iterator().next();
+        User user = userRepository.findByLogin("igor").iterator().next();
 
         String fileName = "";
         if (!file.isEmpty()) {
@@ -97,7 +113,7 @@ public class AddCar {
             car.setNameImg("");
         }
 
-        CarStore.INSTANSE.add(car);
+        carRepository.save(car);
 
         return "startPage";
     }
