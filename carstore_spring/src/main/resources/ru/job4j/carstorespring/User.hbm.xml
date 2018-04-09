@@ -5,5 +5,8 @@
         </id>
         <property name="login" column="login"/>
         <property name="password" column="password"/>
+        <many-to-one name="role"
+                     column="role_id"
+                     class="ru.job4j.carstorespring.models.Role" fetch="join"/>
     </class>
 </hibernate-mapping>

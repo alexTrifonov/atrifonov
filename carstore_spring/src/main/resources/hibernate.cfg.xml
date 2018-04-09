@@ -16,5 +16,6 @@
         <mapping resource="ru/job4j/carstorespring/Engine.hbm.xml"/>
         <mapping resource="ru/job4j/carstorespring/Transmission.hbm.xml"/>
         <mapping resource="ru/job4j/carstorespring/User.hbm.xml"/>
+        <mapping resource="ru/job4j/carstorespring/Role.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

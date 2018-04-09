@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/context
+                            http://www.springframework.org/schema/context/spring-context.xsd
+                            http://www.springframework.org/schema/mvc
+                            http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                            http://www.springframework.org/schema/data/jpa
+                            http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+                            http://www.springframework.org/schema/security
+                            http://www.springframework.org/schema/security/spring-security.xsd">
+
+
+    <security:http auto-config="true">
+        <security:intercept-url pattern="/start" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/login" access="isAnonymous()"/>
+        <security:form-login login-page="/login"
+                             default-target-url="/start"
+                             authentication-failure-url="/login"
+                             username-parameter="username"
+                             password-parameter="password"
+                             login-processing-url="/login"/>
+        <security:logout invalidate-session="true"
+                         logout-success-url="/login?logout"/>
+        <security:csrf disabled="true"/>
+    </security:http>
+
+
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <security:jdbc-user-service data-source-ref="dataSource"
+                                        users-by-username-query="SELECT login, password, enabled FROM sellers WHERE login=?"
+                                        authorities-by-username-query="SELECT s.login, r.name from roles as r, sellers as s
+                                                                        WHERE r.id = s.role_id and s.login=?"/>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+</beans>
