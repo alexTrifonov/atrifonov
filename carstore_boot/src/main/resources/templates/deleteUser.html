@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org"
+      lang="en">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body th:inline="text">
+    <div th:if="${username}">
+        <h1>Пользователь с логином [[${username}]] удален</h1>
+    </div>
+    <div th:if="${notAdmin}">
+        <h1>[[${notAdmin}]]</h1>
+    </div>
+    <a th:href="@{/start}">начальная страница</a>
+</body>
+</html>

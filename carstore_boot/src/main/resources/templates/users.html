@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org"
+      lang="en">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        <table border="1">
+            <tr>
+                <th>Login</th>
+                <th>Password</th>
+            </tr>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.login}"></td>
+                <td><a th:href="@{/deleteUser(userLogin=${user.login})}">delete</a></td>
+            </tr>
+        </table>
+    </div>
+    <a th:href="@{/start}">начальная страница</a>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org"
+      lang="en">
+<head>
+    <title>edit car</title>
+    <meta charset="UTF-8">
+    <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+
+</head>
+<body>
+<body>
+    <form method="post" th:action="@{/editCar}">
+        <label for="soldCar">Продан :</label>
+        <select size="1" name="sold" id="soldCar">
+            <option th:each="sold : ${statusList}" th:value="${sold}" th:text="${sold}" th:selected="${status == sold}"></option>
+        </select>
+        <input type="hidden" th:name="idCar" th:value="${car.id}"/>
+        <input type="submit">
+    </form>
+</body>
+</body>
+</html>

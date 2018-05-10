@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org"
+       lang="en">
+<head>
+    <title>addCar</title>
+    <meta charset="UTF-8">
+    <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script>
+        function getDataEngine() {
+            $.ajax({
+                type : 'GET',
+                url : './engine',
+                complete : function (data) {
+                    var result = '';
+                    var engines = JSON.parse(data.responseText);
+                    for(var i = 0; i != engines.length; i++) {
+                        result += '<option>' + engines[i].engineType + '</option>';
+                    }
+                    $('#engineSelect')[0].innerHTML = result;
+                }
+            });
+        }
+        function getDataDrive() {
+            $.ajax({
+                type : 'GET',
+                url : './drive',
+                complete : function (data) {
+                    var result = '';
+                    var drives = JSON.parse(data.responseText);
+                    for(var i = 0; i != drives.length; i++) {
+                        result += '<option>' + drives[i].driveType + '</option>';
+                    }
+                    $('#driveSelect')[0].innerHTML = result;
+                }
+            });
+        }
+        function getDataBody() {
+            $.ajax({
+                type : 'GET',
+                url : './body',
+                complete : function (data) {
+                    var result = '';
+                    var bodies = JSON.parse(data.responseText);
+                    for(var i = 0; i != bodies.length; i++) {
+                        result += '<option>' + bodies[i].bodyType + '</option>';
+                    }
+                    $('#bodySelect')[0].innerHTML = result;
+                }
+            });
+        }
+        function getDataTransmission() {
+            $.ajax({
+                type : 'GET',
+                url : './transmission',
+                complete : function (data) {
+                    var result = '';
+                    var transmissions = JSON.parse(data.responseText);
+                    for(var i = 0; i != transmissions.length; i++) {
+                        result += '<option>' + transmissions[i].transmType + '</option>';
+                    }
+                    $('#transmSelect')[0].innerHTML = result;
+                }
+            });
+        }
+        function getDataMake() {
+            var get = $.ajax({
+                type : 'GET',
+                url : './make',
+                complete : function (data) {
+                    var result = '';
+                    var makes = JSON.parse(data.responseText);
+                    for(var i = 0; i != makes.length; i++) {
+                        result += '<option>' + makes[i].make + '</option>';
+                    }
+                    $('#makeSelect')[0].innerHTML = result;
+                    getDataModel({makeSelect: $('#makeSelect').find(":selected").text()});
+
+                }
+            });
+            return get;
+        }
+        function getDataModel(reqData) {
+            $.ajax({
+                type : 'GET',
+                url : './model',
+                data : reqData,
+                complete : function (data) {
+                    var result = '';
+                    var models = JSON.parse(data.responseText);
+                    for(var i = 0; i != models.length; i++) {
+                        result += '<option>' + models[i].model + '</option>';
+                    }
+                    $('#modelSelect')[0].innerHTML = result;
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            getDataMake();
+            $('#makeSelect').change(function () {
+                onChangeData = { makeSelect: $(this).val() };
+                getDataModel(onChangeData);
+            });
+            getDataBody();
+            getDataTransmission();
+            getDataEngine();
+            getDataDrive();
+        })
+    </script>
+</head>
+<body>
+    <div class="container">
+        <form class="form-horizontal" th:action="@{/addCar}" th:object="${car}" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="makeSelect">Марка:</label>
+                <div class="col-sm-10">
+                    <td>
+                        <select size="1" class="form-countrol" th:name="make" id="makeSelect"></select>
+                    </td>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="modelSelect">Модель:</label>
+                <div class="col-sm-10">
+                    <td>
+                        <select size="1" class="form-countrol" th:name="model" id="modelSelect"></select>
+                    </td>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="bodySelect">Кузов:</label>
+                <div class="col-sm-10">
+                    <td>
+                        <select size="1" class="form-countrol" th:name="bodyType" id="bodySelect"></select>
+                    </td>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="yearInput">Год выпуска:</label>
+                <div class="col-sm-10">
+                    <td>
+                        <input type="text" class="input-sm" th:name="year" id="yearInput" required>
+                    </td>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="runningInput">Пробег:</label>
+                <div class="col-sm-10">
+                    <td>
+                        <input type="text" class="input-sm" th:name="running" id="runningInput" required>
+                    </td>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="transmSelect">Коробка передач:</label>
+                <div class="col-sm-10">
+                    <td>
+                        <select size="1" class="form-countrol" th:name="transmType" id="transmSelect"></select>
+                    </td>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="engineSelect">Тип двигателя:</label>
+                <div class="col-sm-10">
+                    <td>
+                        <select size="1" class="form-countrol" th:name="engineType" id="engineSelect"></select>
+                    </td>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="capacityInput">Объём двигателя:</label>
+                <div class="col-sm-10">
+                    <td>
+                        <input type="text" class="input-sm" th:name="cubicCapacity" id="capacityInput" required>
+                    </td>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="driveSelect">Привод:</label>
+                <div class="col-sm-10">
+                    <td>
+                        <select size="1" class="form-countrol" th:name="driveType" id="driveSelect"></select>
+                    </td>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="costInput">Цена:</label>
+                <div class="col-sm-10">
+                    <td>
+                        <input type="text" class="input-sm" th:name="cost" id="costInput" required>
+                    </td>
+                </div>
+            </div>
+
+            <input type="file" th:name="file" />
+
+            <input type="submit">
+        </form>
+    </div>
+</body>
+</html>
