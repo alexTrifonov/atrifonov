@@ -17,6 +17,11 @@ public class Drive {
     @Column(name = "drive_type")
     private String driveType;
 
+    public Drive() {}
+    public Drive(String driveType) {
+        this.driveType = driveType;
+    }
+
     public int getId() {
         return id;
     }

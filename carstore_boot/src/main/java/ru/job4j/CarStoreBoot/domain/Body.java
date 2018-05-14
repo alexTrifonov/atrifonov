@@ -17,6 +17,11 @@ public class Body {
     @Column(name = "body_type")
     private String bodyType;
 
+    public Body() {}
+    public Body(String bodyType) {
+        this.bodyType = bodyType;
+    }
+
     public int getId() {
         return id;
     }

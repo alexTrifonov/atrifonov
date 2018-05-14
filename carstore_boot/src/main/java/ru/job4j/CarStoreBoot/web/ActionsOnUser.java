@@ -3,6 +3,7 @@ package ru.job4j.CarStoreBoot.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -47,10 +48,10 @@ public class ActionsOnUser {
         Optional<User> userOptional = userService.findByLogin(user.getLogin());
         ModelAndView model;
         if (userOptional.isPresent()) {
-            model = new ModelAndView("/addUser");
+            model = new ModelAndView("addUser");
             model.addObject("userExist", USER_EXIST);
         } else {
-            model = new ModelAndView("/login");
+            model = new ModelAndView("login");
             user.setPassword(passwordEncoder().encode(user.getPassword()));
             Role role = roleService.findByName("ROLE_USER");
             Set<Role> roles = new HashSet<>();
@@ -66,9 +67,9 @@ public class ActionsOnUser {
         ModelAndView model = new ModelAndView("deleteUser");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         boolean hasAdmin = false;
-        Collection<Role> roles = (Collection<Role>) auth.getAuthorities();
-        for (Role role : roles) {
-            hasAdmin = role.getAuthority().equals("ROLE_ADMIN");
+        Collection<GrantedAuthority> roles = (Collection<GrantedAuthority>) auth.getAuthorities();
+        for (GrantedAuthority grantedAuthority : roles) {
+            hasAdmin = grantedAuthority.getAuthority().equals("ROLE_ADMIN");
             if(hasAdmin) {
                 break;
             }

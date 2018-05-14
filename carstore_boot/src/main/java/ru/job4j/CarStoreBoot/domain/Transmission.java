@@ -17,6 +17,11 @@ public class Transmission {
     @Column(name = "transm_type")
     private String transmType;
 
+    public Transmission() {}
+    public Transmission(String transmType) {
+        this.transmType = transmType;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

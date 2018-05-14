@@ -27,10 +27,6 @@ public class Users {
     @GetMapping("/users")
     public ModelAndView getUsers() {
         ModelAndView model = new ModelAndView("users");
-        List<User> users = userService.findAll();
-        for (User user : users) {
-            user.setPassword(passwordEncoder().encode(user.getPassword()));
-        }
         model.addObject("users", userService.findAll());
         return model;
     }

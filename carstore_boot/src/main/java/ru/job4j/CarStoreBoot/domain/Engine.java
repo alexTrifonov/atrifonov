@@ -17,6 +17,11 @@ public class Engine {
     @Column(name = "engine_type")
     private String engineType;
 
+    public Engine() {}
+    public Engine(String engineType) {
+        this.engineType = engineType;
+    }
+
     public int getId() {
         return id;
     }

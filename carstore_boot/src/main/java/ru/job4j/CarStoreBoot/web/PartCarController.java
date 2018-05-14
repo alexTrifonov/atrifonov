@@ -79,37 +79,38 @@ public class PartCarController {
     @ResponseBody
     public List<Car> getCars(@RequestParam String makeCar, @RequestParam String body, @RequestParam String viewPhoto) {
         Boolean withPhoto = Boolean.parseBoolean(viewPhoto);
-        String bodyStr = body != null ? body : "";
-        String makeCarStr = makeCar != null ? makeCar : "";
+        //String bodyStr = body != null ? body : "";
+        //String makeCarStr = makeCar != null ? makeCar : "";
+
         List<Car> carList = new LinkedList<>();
         MakeCar make;
         Body aBody;
-        if (MAKE.equals(makeCarStr) && BODY.equals(bodyStr)) {
+        if (MAKE.equals(makeCar) && BODY.equals(body)) {
             if (!withPhoto) {
                 carList = carService.findAll();
             } else {
                 carList = carService.findByNameImgNot("");
             }
         }
-        if (!MAKE.equals(makeCarStr) && BODY.equals(bodyStr)) {
-            make = makeService.findByMake(makeCarStr);
+        if (!MAKE.equals(makeCar) && BODY.equals(body)) {
+            make = makeService.findByMake(makeCar);
             if(!withPhoto) {
                 carList = carService.findByMakeCar(make);
             } else {
                 carList = carService.findByMakeCarAndNameImgNot(make, "");
             }
         }
-        if (MAKE.equals(makeCarStr) && !BODY.equals(bodyStr)) {
-            aBody = bodyService.findByBodyType(bodyStr);
+        if (MAKE.equals(makeCar) && !BODY.equals(body)) {
+            aBody = bodyService.findByBodyType(body);
             if (!withPhoto) {
                 carList = carService.findByBody(aBody);
             } else {
                 carList = carService.findByBodyAndNameImgNot(aBody, "");
             }
         }
-        if (!MAKE.equals(makeCarStr) && !BODY.equals(bodyStr)) {
-            aBody = bodyService.findByBodyType(bodyStr);
-            make = makeService.findByMake(makeCarStr);
+        if (!MAKE.equals(makeCar) && !BODY.equals(body)) {
+            aBody = bodyService.findByBodyType(body);
+            make = makeService.findByMake(makeCar);
             if(!withPhoto) {
                 carList = carService.findByMakeCarAndBody(make, aBody);
             } else {
